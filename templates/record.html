@@ -1,0 +1,410 @@
+{%load static%}
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Record</title>
+  <link rel="stylesheet" href="{% static 'css\styles.css'%}" />
+  <link rel="stylesheet" href="{% static 'css\index.css'%}" />
+  <link rel="stylesheet" href="{% static 'css\tabler-icons.css'%}" />
+  <link rel="stylesheet" href="{% static 'css\simplerbar.css'%}" />
+  <link rel="shortcut icon" type="image/png" href="{% static 'img\images.jpeg' %}" />
+  <link rel="stylesheet" href="{% static 'css\styles.min.css'%}" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <style>
+        /* Popup container */
+        .popup {
+          display: none; /* Hidden by default */
+          position: fixed; /* Stay in place */
+          z-index: 9000; /* Sit on top */
+          left: 0;
+          top: 0;
+          width: 100%; /* Full width */
+          height: 100%; /* Full height */
+          overflow: auto; /* Enable scroll if needed */
+          background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+      }
+  
+      /* Popup content */
+      .popup-content {
+          background-color: #fefefe;
+          margin: 15% auto; /* 15% from the top and centered */
+          padding: 20px;
+          border-radius: 30px;
+          border: 1px solid #000000;
+          width: 30%; /* Could be more or less, depending on screen size */
+      }
+
+
+
+
+
+    
+  .f1{
+    border-radius: 10px ;
+    border-color: black;
+    color: black;
+    text-align: center;
+    width: 200px;
+    height: 25px;
+    
+  }
+  .f2{
+    border-radius: 10px ;
+    border-color: black;
+    color: black;
+    text-align: center;
+    width: 200px;
+    height: 25px;
+  }
+  .bttm{
+    background-color: rgb(8, 41, 77);
+    border-radius: 10px;
+    width: 30px;
+
+    
+  }
+  </style>
+</head>
+
+<body>
+  <!--  Body Wrapper -->
+  <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
+    data-sidebar-position="fixed" data-header-position="fixed">
+    <!-- Sidebar Start -->
+    <aside class="left-sidebar">
+      <!-- Sidebar scroll-->
+      <div>
+        <div class="brand-logo d-flex align-items-center justify-content-between">
+          <a href="./index.html" class="text-nowrap logo-img">
+            <img src="{% static 'img/images (1).png'%}" width="180" alt="" />
+          </a>
+          <div class="close-btn d-xl-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse">
+            <i class="ti ti-x fs-8"></i>
+          </div>
+        </div>
+        <!-- Sidebar navigation-->
+        <nav class="sidebar-nav scroll-sidebar" data-simplebar="">
+          <ul id="sidebarnav">
+            <li class="nav-small-cap">
+              <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+              <span class="hide-menu">Home</span>
+            </li>
+            <li class="sidebar-item">
+              <a class="sidebar-link" target="_blank" href="desktop" aria-expanded="false">
+                <span>
+                  <i class="ti ti-layout-dashboard"></i>
+                </span>
+                <span class="hide-menu">Dashboard</span>
+              </a>
+            </li>
+            <li class="nav-small-cap">
+              <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+              <span class="hide-menu">Features</span>
+            </li>
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="pie2"  aria-expanded="false">
+                <span>
+                  <i class="ti ti-article"></i>
+                </span>
+                <span class="hide-menu">Last Live </span>
+              </a>
+            </li>
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="alert2"  aria-expanded="false">
+                <span>
+                  <i class="ti ti-alert-circle"></i>
+                </span>
+                <span class="hide-menu">Ping Ip</span>
+              </a>
+            </li>
+            <li class="sidebar-item">
+              <a class="sidebar-link"  href="time" aria-expanded="false">
+                <span>
+                  <i class="ti ti-cards"></i>
+                </span>
+                <span class="hide-menu">Report</span>
+              </a>
+            </li>
+            <!-- <li class="sidebar-item">
+              <a class="sidebar-link"   href="desk" aria-expanded="false">
+                <span>
+                  <i class="ti ti-cards"></i>
+                </span>
+                <span class="hide-menu">Live</span>
+              </a>
+            </li> -->
+            <li class="sidebar-item">
+              <a class="sidebar-link"  href="ip_save" aria-expanded="false">
+                <span>
+                  <i class="ti ti-cards"></i>
+                </span>
+                <span class="hide-menu">Modify</span>
+              </a>
+            </li>
+            <!-- <li class="sidebar-item">
+              <a class="sidebar-link" href="./ui-forms.html" aria-expanded="false">
+                <span>
+                  <i class="ti ti-file-description"></i>
+                </span>
+                <span class="hide-menu">Forms</span>
+              </a>
+            </li>
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="./ui-typography.html" aria-expanded="false">
+                <span>
+                  <i class="ti ti-typography"></i>
+                </span>
+                <span class="hide-menu">Typography</span>
+              </a>
+            </li>
+            <li class="nav-small-cap">
+              <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+              <span class="hide-menu">AUTH</span>
+            </li> -->
+            <li class="nav-small-cap">
+              <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+              <span class="hide-menu">-----------------</span>
+            </li>
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="User_Login" aria-expanded="false">
+                <span>
+                  <i class="ti ti-login"></i>
+                </span>
+                <span class="hide-menu">Login</span>
+              </a>
+            </li>
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="User_Register"  aria-expanded="false">
+                <span>
+                  <i class="ti ti-user-plus"></i>
+                </span>
+                <span class="hide-menu">User Register</span>
+              </a>
+            </li>
+            <!-- <li class="sidebar-item">
+              <a class="sidebar-link" href="./icon-tabler.html" aria-expanded="false">
+                <span>
+                  <i class="ti ti-mood-happy"></i>
+                </span>
+                <span class="hide-menu">Icons</span>
+              </a>
+            </li>
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="./sample-page.html" aria-expanded="false">
+                <span>
+                  <i class="ti ti-aperture"></i>
+                </span>
+                <span class="hide-menu">Sample Page</span>
+              </a>
+            </li> -->
+          </ul>
+          <!-- <div class="unlimited-access hide-menu bg-light-primary position-relative mb-7 mt-5 rounded">
+            <div class="d-flex">
+              <div class="unlimited-access-title me-3">
+                <h6 class="fw-semibold fs-4 mb-6 text-dark w-85">Upgrade to pro</h6>
+                <a href="https://adminmart.com/product/modernize-bootstrap-5-admin-template/" target="_blank" class="btn btn-primary fs-2 fw-semibold lh-sm">Buy Pro</a>
+              </div>
+              <div class="unlimited-access-img">
+                <img src="../assets/images/backgrounds/rocket.png" alt="" class="img-fluid">
+              </div>
+            </div>
+          </div> -->
+        </nav>
+        <!-- End Sidebar navigation -->
+      </div>
+      <!-- End Sidebar scroll-->
+    </aside>
+    <!--  Sidebar End -->
+    <!--  Main wrapper -->
+    <div class="body-wrapper">
+      <!--  Header Start -->
+      <header class="app-header">
+        <nav class="navbar navbar-expand-lg navbar-light">
+        <ul class="navbar-nav">
+            <li class="nav-item d-block d-xl-none">
+              <a class="nav-link sidebartoggler nav-icon-hover" id="headerCollapse" href="javascript:void(0)">
+                <i class="ti ti-menu-2"></i>
+              </a>
+            </li>
+            
+          </ul>
+          <div class="navbar-collapse justify-content-end px-0" id="navbarNav">
+            <ul class="navbar-nav flex-row ms-auto align-items-center justify-content-end">
+              <a href="{% url 'logout' %}" class="btn btn-primary">Logout</a>
+              <li class="nav-item dropdown">
+                
+                
+              </li>
+            </ul>
+          </div>
+        </nav>
+      </header>
+      <!--  Header End -->
+      <div class="container-fluid">
+        <div class="container-fluid">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title fw-semibold mb-4">Modify Ip Devies Details</h5>
+              
+              <div class="card mb-0">
+                <div class="card">
+                <div class="card-body p-4">
+                <p><i style="color: brown;">AUD:-> ADD,UPDATE,DELETE</i></p>
+                  <p><i style="color: green;">Total Ip:{{x}}</i> </p>
+                  <button class="btn btn-outline-success" onclick="showPopup('popup1')" style="width: fit-content;"><i class="fa fa-plus" data-bs-toggle="collapse" data-bs-target="#collapseExample1" aria-expanded="false" aria-controls="collapseExample"></i></button>
+                  <button class="btn btn-outline-success"  onclick="showPopup('popup2')" style="width: fit-content;"><i class="fa fa-pencil" data-bs-toggle="collapse" data-bs-target="#collapseExample2" aria-expanded="false" aria-controls="collapseExample"></i></button>
+                  <button class="btn btn-outline-success" onclick="showPopup('popup3')" style="width: fit-content;"><i class="fa fa-trash" data-bs-toggle="collapse" data-bs-target="#collapseExample3" aria-expanded="false" aria-controls="collapseExample"></i></i></button>
+                  <div id="popup1" class="popup">
+                    <div class="popup-content">
+                      <h2>Popup 1</h2>
+                      <form onsubmit="return validateForm()" method="post" action="{% url 'ip_save' %}">
+                        {%csrf_token%}
+                          <p><i><b style="color: brown;">Add New Ip</b></i></p>
+                          <label for="f1">Ip: </label>
+                          <input class="f1"    id="f1" placeholder="8.8.8.8"  type="text" placeholder="8.8.8.8"  name="IP" required>
+                          <br>
+                          <br>
+                          <label for="f2">Loc: </label>
+                          <input class="f2"    id="f2" placeholder="Google" type="text" placeholder="8.8.8.8"  name="LOCATION" required><br>
+                          <br>
+                          
+                          <label for="f2">Description: </label>
+                          <input class="f2"    id="f2" placeholder="HP" type="text" placeholder="8.8.8.8"  name="Description" required>
+                          <br>
+                          <br>
+                          <input type="submit"  onclick="valiForm();" name="add" id="bttn" style="height: 40px;width:100px" value="Submit" class="btn btn-outline-success">
+                          <br>
+                          <br>
+                      
+                        <button type="button" id="buttonmy" class="btn " onclick="hidePopup('popup1')">Close</button>
+                        </form>
+                    </div>
+                  </div>
+                  
+                  <div id="popup2" class="popup">
+                    <div class="popup-content">
+                      <form onsubmit="return validateForm()" method="post" action="{% url 'ip_save' %}">
+                        {%csrf_token%}
+                          <p><i><b style="color: brown;">Edit</b></i></p>
+                          <label for="f1">Ip: </label>
+                          <input class="f1"    id="f1" placeholder="8.8.8.8"  type="ip" placeholder="8.8.8.8"  name="ipmm" required>
+                          <br>
+                          <br>
+
+                          <label for="f2">Loc: </label>
+                          <input class="f2"   id="f2" placeholder="Google" type="text" placeholder="8.8.8.8"  name="Locc" required><br>
+                          <br>
+                          
+                          <label for="f2">Description: </label>
+                          <input class="f2"   id="f2" placeholder="HP" type="text" placeholder="8.8.8.8"  name="Dess" required>
+                          <br>
+                          <br>
+                          <input type="submit" name="update" onclick="valiForm();" id="bttn" style="height: 40px;width:100px" value="Submit" class="btn btn-outline-success">
+                          <br>
+                          <br>
+                          <button type="button" id="buttonmy" class="btn " onclick="hidePopup('popup2')">Close</button>
+
+                    </form>
+                    </div>
+                  </div>
+                  
+                  <div id="popup3" class="popup">
+                    <div class="popup-content">
+                      <form onsubmit="return validateForm()" method="post" action="{% url 'ip_save' %}">
+                        {%csrf_token%}
+                          <p><i><b style="color: brown;">Enter Ip for delete</b></i></p>
+                          <label for="f1">Ip: </label>
+                          <input class="f1"    id="f1" placeholder="8.8.8.8"  type="ip" placeholder="8.8.8.8"  name="ipm" required>
+                          <br>
+                          <br>
+                          <input type="submit" name="delete" onclick="valiForm();" id="bttn" style="height: 40px;width:100px" value="Submit" class="btn btn-outline-success">
+                          <br>
+                          <br>
+                          <button type="button" id="buttonmy" class="btn " onclick="hidePopup('popup3')">Close</button>
+
+                    </form> 
+                    </div>
+                  </div>
+                  
+
+                </div>
+                <marquee behavior="scroll" direction="left">
+                  {%for message in messages%}
+              <p>{{message}}</p>
+              {%endfor%}
+                </marquee>
+              
+              </div>
+              <div class="table-responsive" style="height: auto;overflow:auto">
+                
+                <table class="table text-nowrap mb-0 align-middle" style="height: 100px;">
+
+                  <thead class="text-dark fs-4" style="text-decoration: underline ;text-decoration-color:rgb(151, 28, 28)">
+                    <!-- {% if result %}
+                    <h2>Ping Result:</h2>
+                    <pre >{{ result|safe }}</pre>
+                {% endif %} -->
+                
+                    
+                      <th>
+                        <h6 class="fw-semibold mb-0">Ip </h6>
+                        <ul>
+                          {% for ite in P %}
+                              <li>{{ ite.Ip}}</li>
+                              <!-- Include other fields as needed -->
+                          {% endfor %}
+                      </ul>
+                      </th>
+
+                      <th class="border-bottom-0">
+                        <h6 class="fw-semibold mb-0">Location</h6>
+                        <ul>
+                          {% for ite in P %}
+                              <li>{{ ite.Location }} </li>
+                              <!-- Include other fields as needed -->
+                          {% endfor %}
+                      </ul>
+                      </th>
+
+                      <th class="border-bottom-0">
+                        <h6 class="fw-semibold mb-0">Description</h6>
+                        <ul>
+                          {% for ite in P %}
+                              <li>{{ ite.Description }} </li>
+                              
+                              <!-- Include other fields as needed -->
+                          {% endfor %}
+                      </ul>
+                      </th>
+                  </thead>
+                </table>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <div class="position-absolute top-100 start-100 translate-middle"></div>
+
+      <div class="py-6 px-6 text-center">
+        <p class="mb-0 fs-4">{{now}}</p>
+        <p class="mb-0 fs-4">Design and Developed by <a href="" target="_blank" class="pe-1 text-primary text-decoration-underline">L.S.S</a> </p>
+      </div>
+      
+    </div>
+
+  </div>
+  <script src="{% static 'js/jquery.min.js'%}"></script>
+  <script src="{% static 'js/bootstrap.bundle.min.js'%}"></script>
+  <script src="{% static 'js/sidebarmenu.js'%}"></script>
+  <script src="{% static 'js/app.min.js' %}"></script>
+  <script src="{% static 'js/simplebar.js' %}"></script>
+  <script src="{% static 'js/cred.js' %}"></script>
+
+</body>
+
+</html>

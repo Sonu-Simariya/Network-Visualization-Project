@@ -1,0 +1,61 @@
+.bx{
+    height: 30px;
+    min-width: auto;
+    border-radius: 20px;
+    overflow: auto;
+    text-overflow: ellipsis;
+    color: rgb(0, 0, 0);
+    border-color: rgb(0, 0, 0);
+}
+.date{
+border-radius: 20px;
+border-color: aqua;
+text-align: center;
+}
+
+
+.name {
+display: flex;
+flex-direction: row;
+font-size: 30px;
+color: green;
+border: 4px dashed green;
+
+width: 520px;
+}
+
+.name div {
+    
+    border: 2px solid red;
+
+    width: 500px;
+    height: 30px;
+}
+.imm{
+    height: 400px;
+    width: 300px;
+}
+#gren{
+    height: 50px;
+    width: 280px;
+    font-size:  9px;
+
+    border: 1px solid rgb(0, 0, 0);
+    
+}
+#red{
+    height: 50px;
+    width: 280px;
+    font-size:  9px;
+    border: 1px solid rgb(0, 0, 0);
+
+}
+#yellow{
+    height: 50px;
+    width: 280px;
+    font-size:  9px ;
+    border: 1px solid rgb(0, 0, 0);
+    background-color: rgb(255, 13, 0);
+    font-weight: 700;
+}  
+

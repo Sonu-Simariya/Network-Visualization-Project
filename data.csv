@@ -1,0 +1,61 @@
+id,Description,Rack Location,Ip_address,user_id_id
+1,"HP Procurve Switch 5406ZL Intelligent Edge 6 open module slots, supports a combination of max. of 24 10gb e-ports, 144 mini GBIC",NC server room,172.18.90.200,1
+2,3com Baseline 2924 SFP Plus,NC server room,172.18.90.201,1
+3,HP Procurve Switch 2510-24G,NC server room,172.18.90.202,1
+4,HP Procurve Switch 2510-24G,NC server room,172.18.90.203,1
+5,HP Procurve Switch 2510-24G,NC server room,172.18.90.204,1
+6,Link sys SGE 2000P,NC server room,172.18.90.205,1
+7,Link sys SGE 2000P,NC server room,172.18.90.206,1
+8,Link sys SGE 2000P,NC server room,172.18.90.207,1
+9,HP Procurve Switch 2510-24G,Admin First Floor ,172.18.90.208,1
+10,HP Procurve Switch 2510-24G,Admin First Floor,172.18.90.209,1
+11,HP Procurve Switch 2510-24G,PPM ,172.18.90.210,1
+12,HP Procurve Switch 2510-24G,PPM ,172.18.90.211,1
+13,HP Procurve Switch 2510-24G,PDE ,172.18.90.212,1
+14,HP Procurve Switch 2510-24G,PDE ,172.18.90.213,1
+15,HP Procurve Switch 2510-24G,Pump Lab,172.18.90.214,1
+16,HP Procurve Switch 2510-24G,PAT ,172.18.90.215,1
+17,HP Procurve Switch 2510-24G,PAT ,172.18.90.216,1
+18,HP Procurve Switch 2510-24G,PMD ,172.18.90.217,1
+19,HP Procurve Switch 2510-24G,PMD ,172.18.90.218,1
+20,Cisco SR2016 12 Port,PMD ,172.18.90.219,1
+21,HP Procurve Switch 2510-24G,MNTM,172.18.90.220,1
+22,HP Procurve Switch 2510-24G,MNTM,172.18.90.221,1
+23,HP Procurve Switch 2510-24G,MNTM,172.18.90.222,1
+24,HP Procurve Switch 2510-24G,Spare,172.18.90.223,1
+25,HP Procurve Switch 2510-24G,Spare,172.18.90.224,1
+26,HP 2530-24G Switch(J9776A),AEAMT - Workshop GF,172.18.90.225,1
+27,HP 2530-24G Switch (J9776A),AEAMT - CAD/CAM GF,172.18.90.226,1
+28,HP V1910-24G Switch (JE006A),AEAMT - CAD/CAM FF,172.18.90.227,1
+29,HP 2530-24G Switch (J9776A),AEAMT - Library GF (1st Switch),172.18.90.228,1
+30,HP 2530-24G Switch (J9776A),AEAMT - Library GF (2nd Switch),172.18.90.229,1
+31,HP 2530-24G Switch (J9776A),AEAMT - Library Server Room FF (1st Switch),172.18.90.230,1
+32,HP 2530-24G Switch (J9776A),AEAMT - Library Server Room FF (2nd Switch),172.18.90.231,1
+33,HP 2530-24G Switch (J9776A),AEAMT - Second Floor Entrance SF,172.18.90.232,1
+34,HP V1910-24G Switch (JE006A),AEAMT - Server Room GF,172.18.90.233,1
+35,HP V1910-24G Switch (JE006A),AEAMT - Class Room-1 (1st Switch),172.18.90.234,1
+36,HP V1910-24G Switch (JE006A),AEAMT - Class Room-1 (2nd Switch),172.18.90.235,1
+37,HP V1910-24G Switch (JE006A),AEAMT - Class Room-3 Entrance,172.18.90.236,1
+38,HP 2530-24G Switch (J9776A),AEAMT - Electrical Duct FF,172.18.90.237,1
+39,HP V1910-24G Switch (JE006A),AEAMT - Video Conference Room,172.18.90.238,1
+40,HP 2530-24G Switch (J9776A),AEAMT -Executive Class Room,172.18.90.239,1
+41,HP V1910-24G Switch (JE006A),AEAMT - Drives Lab (1st Switch),172.18.90.240,1
+42,HP V1910-24G Switch (JE006A),AEAMT - Drives Lab (2nd Switch),172.18.90.241,1
+43,HP V1910-24G Switch (JE006A),AEAMT - Automation Lab,172.18.90.242,1
+44,HP 1930 24G Switch ,Purchase (old Library),172.18.90.243,1
+45,HP Aruba 2530 24G,STDC BMS Room -1,172.18.90.244,1
+46,HP Aruba 2530 24G,STDC BMS Room -2,172.18.90.245,1
+47,HP Aruba 2530 24G,NC Auditorium,172.18.90.246,1
+48,HP Aruba 2530 24G,Main Gate Security ,172.18.90.247,1
+48,HP Aruba 1930 24G,PAT Electrical Lab FF - Workshop,172.18.90.248,1
+49,HP 2530-8-PoEP Switch (J9780A),Admin first floor-CCTV,172.18.90.249,1
+50,HP 2530-8-PoEP Switch (J9780A),Pump Lab-CCTV,172.18.90.250,1
+51,HP 2530-8-PoEP Switch (J9780A),PDE-CCTV,172.18.90.251,1
+52,HP 2530-8-PoEP Switch (J9780A),PAT-CCTV,172.18.90.252,1
+53,HP 2530-8-PoEP Switch (J9774A),Laboratory Services-CCTV,172.18.90.253,1
+54,HP 2530-24G Switch(J9776A),M&P Infotech room,172.18.90.254,1
+55,HP V1910-24G Switch (JE006A),M&P Infotech room,172.18.90.255,1
+56,HPE Office Connect Switch 1820 24G J9980A,PDE,172.18.90.199,1
+57,HPE Office Connect Switch 1820 24G J9980A,Laboratory Services,172.18.90.198,1
+58,HP 2530-8-PoEP Switch (J9780A),CMF-CCTV(PMD),172.18.90.197,1
+59,HP 2530-8-PoEP Switch (J9780A),MNTM-CCTV,172.18.90.196,1

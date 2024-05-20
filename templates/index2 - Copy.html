@@ -1,0 +1,1362 @@
+{%load static%}
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Analyser</title>
+  <link rel="shortcut icon" type="image/png" href="{% static 'img/images.jpeg' %}" />
+  <link rel="stylesheet" href="{% static 'css/styles.css'%}" />
+  <link rel="stylesheet" href="{% static 'css/index.css'%}" />
+  <link rel="stylesheet" href="{% static 'css/desk.css'%}" />
+  <link rel="stylesheet" href="{% static 'css/tabler-icons.css'%}" />
+  <link rel="stylesheet" href="{% static 'css/simplerbar.css'%}" />
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script> -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+  <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <style>
+    
+    #chatbot{
+      margin-left: auto;
+      margin-right: auto;
+      width: 90%;
+      margin-top: 3px;
+      border-radius: 10px;
+      border: 1px solid white;
+      padding: 10px;
+    }
+    
+    .bottext{
+      font-family: monospace;
+      font-size: 14px;
+      text-align: left;
+      line-height: 25px;
+      color: rgb(0, 0, 0)
+    }
+    
+    .userinput{
+      margin-left: auto;
+      margin-right: auto;
+      margin-top: 20vh;
+      width: 90%;
+      text-align: center
+    }
+    
+    #textinput{
+      border: 3px solid white;
+      border-bottom: 3px solid #afafaf;
+      font-family: monospace;
+      width: 60%;
+      padding: 16px;
+      color: rgb(red, green, blue);
+    }
+    
+    #buttonInput{
+      padding: 5px;
+      font-family: monospace;
+      font-size: 14px;
+      border: 3px solid #5b605c;
+      background-color: rgb(40,40,40);
+      color: white;
+      border-radius: 10px;
+    }
+    .userText{
+      text-align: right;
+      font-family: monospace;
+      font-size: 14px;
+      line-height: 25px;
+      color: rgb(109,111,109);
+    }
+
+    /* Add spacing between lines */
+    .btn {
+        margin-bottom: 10px;
+        margin-left: 10px; /* Adjust as needed */
+    }
+    
+    .message-box {
+      display: none;
+      width: 400px;
+      height: 300px;
+      border: 2px solid #030303;
+      border-radius: 30px;
+      overflow-y: auto;
+      padding: 10px;
+  }
+    .message-box::-webkit-scrollbar { 
+      width: 12px; 
+      border-radius: 10px;
+  } 
+
+  .message-box::-webkit-scrollbar-track { 
+      background: #f1f1f1; 
+  } 
+
+  .message-box::-webkit-scrollbar-thumb { 
+      background: #888; 
+  } 
+
+  .message-box::-webkit-scrollbar-thumb:hover { 
+      background: #555; 
+  } 
+
+  .message-box::-webkit-scrollbar-button { 
+      display: none; 
+  } 
+
+
+  /* Styles for the sent messages */
+  .sent {
+      background-color: #DCF8C6; /* Light green */
+      text-align: right;
+      border-radius: 3px;
+      margin-bottom: 5px;
+  }
+
+  /* Styles for the received messages */
+  .received {
+      background-color: #F2F2F2; /* Light grey */
+      text-align: left;
+      margin-bottom: 5px;
+  }
+    .greet{
+      text-align: center;
+    }
+</style>
+
+</head>
+
+<body  style="overflow: auto;" >
+  <!--  Body Wrapper -->
+
+
+  <div    class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
+    data-sidebar-position="fixed"  data-header-position="fixed" >
+    <!-- Sidebar Start -->
+    <aside  class="left-sidebar" >
+      <!-- Sidebar scroll-->
+      <div id="call" >
+        <div  class="brand-logo d-flex align-items-center justify-content-between">
+          <a href="https://cmti.res.in/" class="text-nowrap logo-img">
+            <img id="sidebarnav" src="{% static 'img\images (1).png' %}" width="180" alt="" />
+          </a>
+          <div class="close-btn d-xl-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse">
+            <i class="ti ti-x fs-8"></i>
+          </div>
+        </div>
+        <!-- Sidebar navigation-->
+        <nav  class="sidebar-nav scroll-sidebar" data-simplebar="">
+          <ul >
+            <li class="nav-small-cap">
+              <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+              <span class="hide-menu">Home</span>
+            </li>
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="desktop" aria-expanded="false">
+                <span>
+                  <i class="ti ti-layout-dashboard"></i>
+                </span>
+                <span class="hide-menu">Dashboard</span>
+              </a>
+            </li>
+            <li class="nav-small-cap">
+              <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+              <span class="hide-menu">Features</span>
+            </li>
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="pie2" target="_blank" aria-expanded="false">
+                <span>
+                  <i class="ti ti-article"></i>
+                </span>
+                <span class="hide-menu">Last Live </span>
+              </a>
+            </li>
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="alert2" target="_blank"  aria-expanded="false">
+                <span>
+                  <i class="ti ti-alert-circle"></i>
+                </span>
+                <span class="hide-menu">Ping Ip</span>
+              </a>
+            </li>
+            <li class="sidebar-item">
+              <a class="sidebar-link" target="_blank" href="time" aria-expanded="false">
+                <span>
+                  <i class="ti ti-cards"></i>
+                </span>
+                <span class="hide-menu">Report</span>
+              </a>
+            </li>
+            <!-- <li class="sidebar-item">
+              <a class="sidebar-link" target="_blank" href="{% url 'desk' %}" aria-expanded="false">
+                <span>
+                  <i class="ti ti-cards"></i>
+                </span>
+                <span class="hide-menu">Live</span>
+              </a>
+            </li> -->
+            <li class="sidebar-item">
+              <a class="sidebar-link" target="_blank" href="ip_save" aria-expanded="false">
+                <span>
+                  <i class="ti ti-cards"></i>
+                </span>
+                <span class="hide-menu">Modify</span>
+              </a>
+            </li>
+            <!-- <li class="sidebar-item">
+              <a class="sidebar-link" href="./ui-forms.html" aria-expanded="false">
+                <span>
+                  <i class="ti ti-file-description"></i>
+                </span>
+                <span class="hide-menu">Forms</span>
+              </a>
+            </li>
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="./ui-typography.html" aria-expanded="false">
+                <span>
+                  <i class="ti ti-typography"></i>
+                </span>
+                <span class="hide-menu">Typography</span>
+              </a>
+            </li>
+            <li class="nav-small-cap">
+              <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+              <span class="hide-menu">AUTH</span>
+            </li> -->
+            <li class="nav-small-cap">
+              <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+              <span class="hide-menu">-----------------</span>
+            </li>
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="User_Login" aria-expanded="false">
+                <span>
+                  <i class="ti ti-login"></i>
+                </span>
+                <span class="hide-menu">Login</span>
+              </a>
+            </li>
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="User_Register" target="_blank" aria-expanded="false">
+                <span>
+                  <i class="ti ti-user-plus"></i>
+                </span>
+                <span class="hide-menu">User Register</span>
+              </a>
+            </li>
+            
+            <!-- <li class="sidebar-item">
+              <a class="sidebar-link" href="" aria-expanded="false">
+                <span>
+                  <i class="ti ti-mood-happy"></i>
+                </span>
+                <span class="hide-menu">Icons</span>
+              </a>
+            </li> -->
+            <!-- <li class="sidebar-item">
+              <a class="sidebar-link" href="./sample-page.html" aria-expanded="false">
+                <span>
+                  <i class="ti ti-aperture"></i>
+                </span>
+                <span class="hide-menu">Sample Page</span>
+              </a>
+            </li> -->
+          </ul>
+          <!-- <div class="unlimited-access hide-menu bg-light-primary position-relative mb-7 mt-5 rounded">
+            <div class="d-flex">
+              <div class="unlimited-access-title me-3">
+                <h6 class="fw-semibold fs-4 mb-6 text-dark w-85">Upgrade to pro</h6>
+                <a href="https://adminmart.com/product/modernize-bootstrap-5-admin-template/" target="_blank" class="btn btn-primary fs-2 fw-semibold lh-sm">Buy Pro</a>
+              </div>
+              <div class="unlimited-access-img">
+                <img src="{% static 'img\rocket.png' %}" alt="" class="img-fluid">
+              </div>
+            </div>
+          </div> -->
+        </nav>
+        <!-- End Sidebar navigation -->
+      </div>
+      <!-- End Sidebar scroll-->
+    </aside>
+    <!--  Sidebar End -->
+    <!--  Main wrapper -->
+    <div  class="body-wrapper">
+      <!--  Header Start -->
+      <header class="app-header">
+        <nav class="navbar navbar-expand-lg navbar-light">
+          <ul class="navbar-nav">
+            <li class="nav-item d-block d-xl-none">
+              <a class="nav-link sidebartoggler nav-icon-hover" id="headerCollapse" href="javascript:void(0)">
+                <i class="ti ti-menu-2"></i>
+              </a>
+            </li>
+            <li class="nav-item" >
+              <marquee behavior="scroll" direction="left">
+                
+                {%for it in dis%}
+                
+                {% if it.Status == 'Reachable'  %}
+                {% elif it.Status == 'Destination Unreachable' %}
+                    <p id="yellow" type="button" class="btn " style="color:rgb(247, 247, 247)">Location:->{{it.Rack_Location }} <br>Status:->{{it.Status }} & Ip:-> {{it.Ip}} <br> Date&Time:-> {{it.date_1}} </p>
+                {% else %}
+                    <p id="red" type="button" class="btn " style="color:rgb(255, 255, 255)">Location:->{{it.Rack_Location }} <br>Status:-> {{it.Status }} & Ip:-> {{it.Ip}} <br> Date&Time:->{{it.date_1}} </p>
+                  {% endif %}
+                  
+                {%endfor%}
+                &nabla;&nbsp;&nbsp;&nbsp;
+              </marquee>
+              
+            </li>
+            
+            
+          </ul>
+          <div class="navbar-collapse justify-content-end px-0" id="navbarNav">
+
+            <ul class="navbar-nav flex-row ms-auto align-items-center justify-content-end">
+
+              <button  class="btn btn-primary" id="btt" style="width: 150px;" onclick="togleFullscreen()"  >Full Screen</button>
+              <a href="{% url 'logout' %}" class="btn btn-primary">Logout</a>
+
+              <li class="nav-item dropdown">
+
+                <!-- <a class="nav-link nav-icon-hover" href="javascript:void(0)" id="drop2" data-bs-toggle="dropdown"
+                  aria-expanded="false">
+                  <img src="{%static 'img\user-1.jpg' %}" alt="" width="35" height="35" class="rounded-circle">
+                </a> -->
+
+                
+              </li>
+            </ul>
+          </div>
+
+        </nav>
+
+      </header>
+      <!--  Header End -->
+      
+      <div  class="container-fluid" >
+          
+
+        
+        <p>I am LEO,How may i help you?</p>
+        <button class="btn-open-popup btn btn-primary" onclick="openMessageBox()"  id="btt" style="width: 80px;background-color:white;border:none"   ><img id="sidebarnav" style="height: 40px;width:40px" src="{% static 'img\chatbot.png' %}" width="180" alt=""></button>
+        <div id="messageBox" class="message-box" style="overflow-x: scroll;">
+          <!-- <p class="greet" >Namaste 🙏</p> -->
+          <div id="chatbot">
+            <p class="bottext"><span>LEO😎🙏: Namaste🙏</span></p>
+          </div>
+          <div class="userinput top-100 ">
+            
+              <input type="text" id="textinput" name="usermessage " placeholder="Type your message...">
+              <input type="submit" value="Send" id="buttonInput">
+            
+          </div>
+          <!-- <form onsubmit="sendMessage(); return false;" method="post" action="{% url 'desktop' %}">
+            
+            <input type="text" name="inputss" id="messageInput" style="width:45%;text-align:center" placeholder="Type your message..." autocomplete="off" required>
+            <button class="btn btn-primary" type="submit">Send</button>
+
+        </form>
+        {%if response %}
+        {{response}}
+        {%endif%} -->
+        </div>
+      
+        <!--  Row 1 -->
+        <div id="fullScreenDiv" class="row" style="font-size: x-large;size:30px;height: 100%; overflow-y: auto;">
+            {% if status_1 == 'Connected' %}
+              <strong  ><p  id="quit" style="color:blue;font-size:small">Your Device Ip - > <b style="color: rgb(89, 165, 42);">{{server_ip}}</b> <br> Server Status - > <b style="color: rgb(89, 165, 42);">{{status_1}}</b> to Network</p></strong>
+          {% else %}
+              <strong  ><p  id="quit" style="color:blue;font-size:small">Your Device Ip - > <b style="color: red;">{{server_ip}}</b> <br> Server Status - > <b style="color: rgb(255, 3, 3);">{{status_1}}</b> to Network</p></strong>
+          {%endif%}
+
+          <!--1-->
+          {%if status_1 == 'Connected' %}
+          {% if a1.Status == 'Reachable' %}
+              <button id="gren" type="button" class="btn " style="color:rgb(255, 255, 255);background-color: green;"><b>{{a1.Rack_Location}}<br>{{a1.Status }} <br> {{a1.Ip}} -> {{a1.date_1}}</b></button>
+          {% elif a1.Status == 'Destination Unreachable' %}
+              <button id="yellow" type="button" class="btn " style="color:rgb(247, 247, 247);background-color: rgb(255, 0, 0);"><b>{{a1.Rack_Location}}</b><br>{{a1.Status }} <br> {{a1.Ip}} -> {{a1.date_1}}</b></button><br>
+          {% else %}
+              <button id="red" type="button" class="btn " style="color:rgb(255, 255, 255);background-color: rgb(255, 0, 0);"><b>{{a1.Rack_Location}} <br> {{a1.Status }}<br> {{a1.Ip}} -> {{a1.date_1}}</button></b><br>
+          {% endif %}
+          <!--2-->
+          {% if a2.Status == 'Reachable' %}
+          <button id="gren" type="button" class="btn " style="color:rgb(255, 255, 255);background-color: green;"><b>{{a2.Rack_Location}}<br>{{a2.Status }} <br> {{a2.Ip}} -> {{a2.date_1}}</b></button>
+          {% elif a2.Status == 'Destination Unreachable' %}
+          <button id="yellow" type="button" class="btn " style="color:rgb(247, 247, 247);background-color: rgb(255, 0, 0);"><b>{{a2.Rack_Location}}</b><br>{{a2.Status }} <br> {{a2.Ip}} -> {{a2.date_1}}</b></button><br>
+          {% else %}
+          <button id="red" type="button" class="btn " style="color:rgb(255, 255, 255);background-color: rgb(255, 0, 0);"><b>{{a2.Rack_Location}} <br> {{a2.Status }}<br> {{a2.Ip}} -> {{a2.date_1}}</button></b><br>
+          {% endif %}
+          <!--3-->
+          {% if a3.Status == 'Reachable' %}
+          <button id="gren" type="button" class="btn " style="color:rgb(255, 255, 255);background-color:green;"><b>{{a3.Rack_Location}}<br>{{a3.Status }} <br> {{a3.Ip}} -> {{a3.date_1}}</b></button>
+          {% elif a3.Status == 'Destination Unreachable' %}
+          <button id="yellow" type="button" class="btn " style="color:rgb(247, 247, 247);background-color: rgb(255, 0, 0);"><b>{{a3.Rack_Location}}</b><br>{{a3.Status }} <br> {{a3.Ip}} -> {{a3.date_1}}</b></button><br>
+          {% else %}
+          <button id="red" type="button" class="btn " style="color:rgb(255, 255, 255);background-color: rgb(255, 0, 0);"><b>{{a3.Rack_Location}} <br> {{a3.Status }}<br> {{a3.Ip}} -> {{a3.date_1}}</button></b><br>
+          {% endif %}
+          
+          <!--4-->
+          {% if a4.Status == 'Reachable' %}
+              <button id="gren" type="button" class="btn " style="color:rgb(255, 255, 255);background-color: green;"><b>{{a4.Rack_Location}}<br>{{a4.Status }} <br> {{a4.Ip}} -> {{a4.date_1}}</b></button>
+          {% elif a4.Status == 'Destination Unreachable' %}
+              <button id="yellow" type="button" class="btn " style="color:rgb(247, 247, 247);background-color: rgb(255, 0, 0);"><b>{{a4.Rack_Location}}</b><br>{{a4.Status }} <br> {{a4.Ip}} -> {{a4.date_1}}</b></button><br>
+          {% else %}
+              <button id="red" type="button" class="btn " style="color:rgb(255, 255, 255);background-color: rgb(255, 0, 0);"><b>{{a4.Rack_Location}} <br> {{a4.Status }}<br> {{a4.Ip}} -> {{a4.date_1}}</button></b><br>
+          {% endif %}
+          <!--5-->
+          {% if a5.Status == 'Reachable' %}
+          <button id="gren" type="button" class="btn " style="color:rgb(255, 255, 255);background-color:green;"><b>{{a5.Rack_Location}}<br>{{a5.Status }} <br> {{a5.Ip}} -> {{a5.date_1}}</b></button>
+          {% elif a5.Status == 'Destination Unreachable' %}
+          <button id="yellow" type="button" class="btn " style="color:rgb(247, 247, 247);background-color: rgb(255, 0, 0);"><b>{{a5.Rack_Location}}</b><br>{{a5.Status }} <br> {{a5.Ip}} -> {{a5.date_1}}</b></button><br>
+          {% else %}
+          <button id="red" type="button" class="btn " style="color:rgb(255, 255, 255);background-color: rgb(255, 0, 0);"><b>{{a5.Rack_Location}} <br> {{a5.Status }}<br> {{a5.Ip}} -> {{a5.date_1}}</button></b><br>
+          {% endif %}
+          <!--6-->
+          {% if a6.Status == 'Reachable' %}
+          <button id="gren" type="button" class="btn " style="color:rgb(255, 255, 255);background-color:green;"><b>{{a6.Rack_Location}}<br>{{a6.Status }} <br> {{a6.Ip}} -> {{a6.date_1}}</b></button>
+          {% elif a6.Status == 'Destination Unreachable' %}
+          <button id="yellow" type="button" class="btn " style="color:rgb(247, 247, 247);background-color: rgb(255, 0, 0);"><b>{{a6.Rack_Location}}</b><br>{{a6.Status }} <br> {{a6.Ip}} -> {{a6.date_1}}</b></button><br>
+          {% else %}
+          <button id="red" type="button" class="btn " style="color:rgb(255, 255, 255);background-color: rgb(255, 0, 0);"><b>{{a6.Rack_Location}} <br> {{a6.Status }}<br> {{a6.Ip}} -> {{a6.date_1}}</button></b><br>
+          {% endif %}
+
+          <!--7-->
+          {% if a7.Status == 'Reachable' %}
+              <button id="gren" type="button" class="btn " style="color:rgb(255, 255, 255);background-color: green;"><b>{{a7.Rack_Location}}<br>{{a7.Status }} <br> {{a7.Ip}} -> {{a7.date_1}}</b></button>
+          {% elif a7.Status == 'Destination Unreachable' %}
+              <button id="yellow" type="button" class="btn " style="color:rgb(247, 247, 247);background-color: rgb(255, 0, 0);"><b>{{a7.Rack_Location}}</b><br>{{a7.Status }} <br> {{a7.Ip}} -> {{a7.date_1}}</b></button><br>
+          {% else %}
+              <button id="red" type="button" class="btn " style="color:rgb(255, 255, 255);background-color: rgb(255, 0, 0);"><b>{{a7.Rack_Location}} <br> {{a7.Status }}<br> {{a7.Ip}} -> {{a7.date_1}}</button></b><br>
+          {% endif %}
+          <!--8-->
+          {% if a8.Status == 'Reachable' %}
+          <button id="gren" type="button" class="btn " style="color:rgb(255, 255, 255);background-color: green;"><b>{{a8.Rack_Location}}<br>{{a8.Status }} <br> {{a8.Ip}} -> {{a8.date_1}}</b></button>
+          {% elif a8.Status == 'Destination Unreachable' %}
+          <button id="yellow" type="button" class="btn " style="color:rgb(247, 247, 247);background-color: rgb(255, 0, 0);"><b>{{a8.Rack_Location}}</b><br>{{a8.Status }} <br> {{a8.Ip}} -> {{a8.date_1}}</b></button><br>
+          {% else %}
+          <button id="red" type="button" class="btn " style="color:rgb(255, 255, 255);background-color: rgb(255, 0, 0);"><b>{{a8.Rack_Location}} <br> {{a8.Status }}<br> {{a8.Ip}} -> {{a8.date_1}}</button></b><br>
+          {% endif %}
+          <!--9-->
+          {% if a9.Status == 'Reachable' %}
+          <button id="gren" type="button" class="btn " style="color:rgb(255, 255, 255);background-color:green;"><b>{{a9.Rack_Location}}<br>{{a9.Status }} <br> {{a9.Ip}} -> {{a9.date_1}}</b></button>
+          {% elif a9.Status == 'Destination Unreachable' %}
+          <button id="yellow" type="button" class="btn " style="color:rgb(247, 247, 247);background-color: rgb(255, 0, 0);"><b>{{a9.Rack_Location}}</b><br>{{a9.Status }} <br> {{a9.Ip}} -> {{a9.date_1}}</b></button><br>
+          {% else %}
+          <button id="red" type="button" class="btn " style="color:rgb(255, 255, 255);background-color: rgb(255, 0, 0);"><b>{{a9.Rack_Location}} <br> {{a9.Status }}<br> {{a9.Ip}} -> {{a9.date_1}}</button></b><br>
+          {% endif %}
+          
+          <!--10-->
+          {% if a10.Status == 'Reachable' %}
+              <button id="gren" type="button" class="btn " style="color:rgb(255, 255, 255);background-color: green;"><b>{{a10.Rack_Location}}<br>{{a10.Status }} <br> {{a10.Ip}} -> {{a10.date_1}}</b></button>
+          {% elif a10.Status == 'Destination Unreachable' %}
+              <button id="yellow" type="button" class="btn " style="color:rgb(247, 247, 247);background-color: rgb(255, 0, 0);"><b>{{a10.Rack_Location}}</b><br>{{a10.Status }} <br> {{a10.Ip}} -> {{a10.date_1}}</b></button><br>
+          {% else %}
+              <button id="red" type="button" class="btn " style="color:rgb(255, 255, 255);background-color: rgb(255, 0, 0);"><b>{{a10.Rack_Location}} <br> {{a10.Status }}<br> {{a10.Ip}} -> {{a10.date_1}}</button></b><br>
+          {% endif %}
+          <!--11-->
+          {% if a11.Status == 'Reachable' %}
+          <button id="gren" type="button" class="btn " style="color:rgb(255, 255, 255);background-color:green;"><b>{{a11.Rack_Location}}<br>{{a11.Status }} <br> {{a11.Ip}} -> {{a11.date_1}}</b></button>
+          {% elif a11.Status == 'Destination Unreachable' %}
+          <button id="yellow" type="button" class="btn " style="color:rgb(247, 247, 247);background-color: rgb(255, 0, 0);"><b>{{a11.Rack_Location}}</b><br>{{a11.Status }} <br> {{a11.Ip}} -> {{a11.date_1}}</b></button><br>
+          {% else %}
+          <button id="red" type="button" class="btn " style="color:rgb(255, 255, 255);background-color: rgb(255, 0, 0);"><b>{{a11.Rack_Location}} <br> {{a11.Status }}<br> {{a11.Ip}} -> {{a11.date_1}}</button></b><br>
+          {% endif %}
+          <!--12-->
+          {% if a12.Status == 'Reachable' %}
+          <button id="gren" type="button" class="btn " style="color:rgb(255, 255, 255);background-color:green;"><b>{{a12.Rack_Location}}<br>{{a12.Status }} <br> {{a12.Ip}} -> {{a12.date_1}}</b></button>
+          {% elif a12.Status == 'Destination Unreachable' %}
+          <button id="yellow" type="button" class="btn " style="color:rgb(247, 247, 247);background-color: rgb(255, 0, 0);"><b>{{a12.Rack_Location}}</b><br>{{a12.Status }} <br> {{a12.Ip}} -> {{a12.date_1}}</b></button><br>
+          {% else %}
+          <button id="red" type="button" class="btn " style="color:rgb(255, 255, 255);background-color: rgb(255, 0, 0);"><b>{{a12.Rack_Location}} <br> {{a12.Status }}<br> {{a12.Ip}} -> {{a12.date_1}}</button></b><br>
+          {% endif %}
+
+
+          <!--13-->
+              {% if a13.Status == 'Reachable' %}
+              <button id="gren" type="button" class="btn " style="color:rgb(255, 255, 255);background-color: green;"><b>{{a13.Rack_Location}}<br>{{a13.Status }} <br> {{a13.Ip}} -> {{a13.date_1}}</b></button>
+          {% elif a13.Status == 'Destination Unreachable' %}
+              <button id="yellow" type="button" class="btn " style="color:rgb(247, 247, 247);background-color: rgb(255, 0, 0);"><b>{{a13.Rack_Location}}</b><br>{{a13.Status }} <br> {{a13.Ip}} -> {{a13.date_1}}</b></button><br>
+          {% else %}
+              <button id="red" type="button" class="btn " style="color:rgb(255, 255, 255);background-color: rgb(255, 0, 0);"><b>{{a13.Rack_Location}} <br> {{a13.Status }}<br> {{a13.Ip}} -> {{a13.date_1}}</button></b><br>
+          {% endif %}
+          <!--14-->
+          {% if a14.Status == 'Reachable' %}
+          <button id="gren" type="button" class="btn " style="color:rgb(255, 255, 255);background-color: green;"><b>{{a14.Rack_Location}}<br>{{a14.Status }} <br> {{a14.Ip}} -> {{a14.date_1}}</b></button>
+          {% elif a14.Status == 'Destination Unreachable' %}
+          <button id="yellow" type="button" class="btn " style="color:rgb(247, 247, 247);background-color: rgb(255, 0, 0);"><b>{{a14.Rack_Location}}</b><br>{{a14.Status }} <br> {{a14.Ip}} -> {{a14.date_1}}</b></button><br>
+          {% else %}
+          <button id="red" type="button" class="btn " style="color:rgb(255, 255, 255);background-color: rgb(255, 0, 0);"><b>{{a14.Rack_Location}} <br> {{a14.Status }}<br> {{a14.Ip}} -> {{a14.date_1}}</button></b><br>
+          {% endif %}
+          <!--15-->
+          {% if a15.Status == 'Reachable' %}
+          <button id="gren" type="button" class="btn " style="color:rgb(255, 255, 255);background-color:green;"><b>{{a15.Rack_Location}}<br>{{a15.Status }} <br> {{a15.Ip}} -> {{a15.date_1}}</b></button>
+          {% elif a15.Status == 'Destination Unreachable' %}
+          <button id="yellow" type="button" class="btn " style="color:rgb(247, 247, 247);background-color: rgb(255, 0, 0);"><b>{{a15.Rack_Location}}</b><br>{{a15.Status }} <br> {{a15.Ip}} -> {{a15.date_1}}</b></button><br>
+          {% else %}
+          <button id="red" type="button" class="btn " style="color:rgb(255, 255, 255);background-color: rgb(255, 0, 0);"><b>{{a15.Rack_Location}} <br> {{a15.Status }}<br> {{a15.Ip}} -> {{a15.date_1}}</button></b><br>
+          {% endif %}
+          
+          <!--16-->
+          {% if a16.Status == 'Reachable' %}
+              <button id="gren" type="button" class="btn " style="color:rgb(255, 255, 255);background-color: green;"><b>{{a16.Rack_Location}}<br>{{a16.Status }} <br> {{a16.Ip}} -> {{a16.date_1}}</b></button>
+          {% elif a16.Status == 'Destination Unreachable' %}
+              <button id="yellow" type="button" class="btn " style="color:rgb(247, 247, 247);background-color: rgb(255, 0, 0);"><b>{{a16.Rack_Location}}</b><br>{{a16.Status }} <br> {{a16.Ip}} -> {{a16.date_1}}</b></button><br>
+          {% else %}
+              <button id="red" type="button" class="btn " style="color:rgb(255, 255, 255);background-color: rgb(255, 0, 0);"><b>{{a16.Rack_Location}} <br> {{a16.Status }}<br> {{a16.Ip}} -> {{a16.date_1}}</button></b><br>
+          {% endif %}
+          <!--17-->
+          {% if a17.Status == 'Reachable' %}
+          <button id="gren" type="button" class="btn " style="color:rgb(255, 255, 255);background-color:green;"><b>{{a17.Rack_Location}}<br>{{a17.Status }} <br> {{a17.Ip}} -> {{a17.date_1}}</b></button>
+          {% elif a17.Status == 'Destination Unreachable' %}
+          <button id="yellow" type="button" class="btn " style="color:rgb(247, 247, 247);background-color: rgb(255, 0, 0);"><b>{{a17.Rack_Location}}</b><br>{{a17.Status }} <br> {{a17.Ip}} -> {{a17.date_1}}</b></button><br>
+          {% else %}
+          <button id="red" type="button" class="btn " style="color:rgb(255, 255, 255);background-color: rgb(255, 0, 0);"><b>{{a17.Rack_Location}} <br> {{a17.Status }}<br> {{a17.Ip}} -> {{a17.date_1}}</button></b><br>
+          {% endif %}
+          <!--18-->
+          {% if a18.Status == 'Reachable' %}
+          <button id="gren" type="button" class="btn " style="color:rgb(255, 255, 255);background-color:green;"><b>{{a18.Rack_Location}}<br>{{a18.Status }} <br> {{a18.Ip}} -> {{a18.date_1}}</b></button>
+          {% elif a18.Status == 'Destination Unreachable' %}
+          <button id="yellow" type="button" class="btn " style="color:rgb(247, 247, 247);background-color: rgb(255, 0, 0);"><b>{{a18.Rack_Location}}</b><br>{{a18.Status }} <br> {{a18.Ip}} -> {{a18.date_1}}</b></button><br>
+          {% else %}
+          <button id="red" type="button" class="btn " style="color:rgb(255, 255, 255);background-color: rgb(255, 0, 0);"><b>{{a18.Rack_Location}} <br> {{a18.Status }}<br> {{a18.Ip}} -> {{a18.date_1}}</button></b><br>
+          {% endif %}
+
+          <!--19-->
+          {% if a19.Status == 'Reachable' %}
+              <button id="gren" type="button" class="btn " style="color:rgb(255, 255, 255);background-color: green;"><b>{{a19.Rack_Location}}<br>{{a19.Status }} <br> {{a19.Ip}} -> {{a19.date_1}}</b></button>
+          {% elif a19.Status == 'Destination Unreachable' %}
+              <button id="yellow" type="button" class="btn " style="color:rgb(247, 247, 247);background-color: rgb(255, 0, 0);"><b>{{a19.Rack_Location}}</b><br>{{a19.Status }} <br> {{a19.Ip}} -> {{a19.date_1}}</b></button><br>
+          {% else %}
+              <button id="red" type="button" class="btn " style="color:rgb(255, 255, 255);background-color: rgb(255, 0, 0);"><b>{{a19.Rack_Location}} <br> {{a19.Status }}<br> {{a19.Ip}} -> {{a19.date_1}}</button></b><br>
+          {% endif %}
+          <!--20-->
+          {% if a20.Status == 'Reachable' %}
+          <button id="gren" type="button" class="btn " style="color:rgb(255, 255, 255);background-color: green;"><b>{{a20.Rack_Location}}<br>{{a20.Status }} <br> {{a20.Ip}} -> {{a20.date_1}}</b></button>
+          {% elif a20.Status == 'Destination Unreachable' %}
+          <button id="yellow" type="button" class="btn " style="color:rgb(247, 247, 247);background-color: rgb(255, 0, 0);"><b>{{a20.Rack_Location}}</b><br>{{a20.Status }} <br> {{a20.Ip}} -> {{a20.date_1}}</b></button><br>
+          {% else %}
+          <button id="red" type="button" class="btn " style="color:rgb(255, 255, 255);background-color: rgb(255, 0, 0);"><b>{{a20.Rack_Location}} <br> {{a20.Status }}<br> {{a20.Ip}} -> {{a20.date_1}}</button></b><br>
+          {% endif %}
+          <!--21-->
+          {% if a21.Status == 'Reachable' %}
+          <button id="gren" type="button" class="btn " style="color:rgb(255, 255, 255);background-color:green;"><b>{{a21.Rack_Location}}<br>{{a21.Status }} <br> {{a21.Ip}} -> {{a21.date_1}}</b></button>
+          {% elif a21.Status == 'Destination Unreachable' %}
+          <button id="yellow" type="button" class="btn " style="color:rgb(247, 247, 247);background-color: rgb(255, 0, 0);"><b>{{a21.Rack_Location}}</b><br>{{a21.Status }} <br> {{a21.Ip}} -> {{a21.date_1}}</b></button><br>
+          {% else %}
+          <button id="red" type="button" class="btn " style="color:rgb(255, 255, 255);background-color: rgb(255, 0, 0);"><b>{{a21.Rack_Location}} <br> {{a21.Status }}<br> {{a21.Ip}} -> {{a21.date_1}}</button></b><br>
+          {% endif %}
+          
+          <!--22-->
+          {% if a22.Status == 'Reachable' %}
+              <button id="gren" type="button" class="btn " style="color:rgb(255, 255, 255);background-color: green;"><b>{{a22.Rack_Location}}<br>{{a22.Status }} <br> {{a22.Ip}} -> {{a22.date_1}}</b></button>
+          {% elif a22.Status == 'Destination Unreachable' %}
+              <button id="yellow" type="button" class="btn " style="color:rgb(247, 247, 247);background-color: rgb(255, 0, 0);"><b>{{a22.Rack_Location}}</b><br>{{a22.Status }} <br> {{a22.Ip}} -> {{a22.date_1}}</b></button><br>
+          {% else %}
+              <button id="red" type="button" class="btn " style="color:rgb(255, 255, 255);background-color: rgb(255, 0, 0);"><b>{{a22.Rack_Location}} <br> {{a22.Status }}<br> {{a22.Ip}} -> {{a22.date_1}}</button></b><br>
+          {% endif %}
+          <!--23-->
+          {% if a23.Status == 'Reachable' %}
+          <button id="gren" type="button" class="btn " style="color:rgb(255, 255, 255);background-color:green;"><b>{{a23.Rack_Location}}<br>{{a23.Status }} <br> {{a23.Ip}} -> {{a23.date_1}}</b></button>
+          {% elif a23.Status == 'Destination Unreachable' %}
+          <button id="yellow" type="button" class="btn " style="color:rgb(247, 247, 247);background-color: rgb(255, 0, 0);"><b>{{a23.Rack_Location}}</b><br>{{a23.Status }} <br> {{a23.Ip}} -> {{a23.date_1}}</b></button><br>
+          {% else %}
+          <button id="red" type="button" class="btn " style="color:rgb(255, 255, 255);background-color: rgb(255, 0, 0);"><b>{{a23.Rack_Location}} <br> {{a23.Status }}<br> {{a23.Ip}} -> {{a23.date_1}}</button></b><br>
+          {% endif %}
+          <!--24-->
+          {% if a24.Status == 'Reachable' %}
+          <button id="gren" type="button" class="btn " style="color:rgb(255, 255, 255);background-color:green;"><b>{{a24.Rack_Location}}<br>{{a24.Status }} <br> {{a24.Ip}} -> {{a24.date_1}}</b></button>
+          {% elif a24.Status == 'Destination Unreachable' %}
+          <button id="yellow" type="button" class="btn " style="color:rgb(247, 247, 247);background-color: rgb(255, 0, 0);"><b>{{a24.Rack_Location}}</b><br>{{a24.Status }} <br> {{a24.Ip}} -> {{a24.date_1}}</b></button><br>
+          {% else %}
+          <button id="red" type="button" class="btn " style="color:rgb(255, 255, 255);background-color: rgb(255, 0, 0);"><b>{{a24.Rack_Location}} <br> {{a24.Status }}<br> {{a24.Ip}} -> {{a24.date_1}}</button></b><br>
+          {% endif %}
+          <!--25-->
+                  {% if a25.Status == 'Reachable' %}
+              <button id="gren" type="button" class="btn " style="color:rgb(255, 255, 255);background-color: green;"><b>{{a25.Rack_Location}}<br>{{a25.Status }} <br> {{a25.Ip}} -> {{a25.date_1}}</b></button>
+          {% elif a25.Status == 'Destination Unreachable' %}
+              <button id="yellow" type="button" class="btn " style="color:rgb(247, 247, 247);background-color: rgb(255, 0, 0);"><b>{{a25.Rack_Location}}</b><br>{{a25.Status }} <br> {{a25.Ip}} -> {{a25.date_1}}</b></button><br>
+          {% else %}
+              <button id="red" type="button" class="btn " style="color:rgb(255, 255, 255);background-color: rgb(255, 0, 0);"><b>{{a25.Rack_Location}} <br> {{a25.Status }}<br> {{a25.Ip}} -> {{a25.date_1}}</button></b><br>
+          {% endif %}
+          <!--26-->
+          {% if a26.Status == 'Reachable' %}
+          <button id="gren" type="button" class="btn " style="color:rgb(255, 255, 255);background-color: green;"><b>{{a26.Rack_Location}}<br>{{a26.Status }} <br> {{a26.Ip}} -> {{a26.date_1}}</b></button>
+          {% elif a26.Status == 'Destination Unreachable' %}
+          <button id="yellow" type="button" class="btn " style="color:rgb(247, 247, 247);background-color: rgb(255, 0, 0);"><b>{{a26.Rack_Location}}</b><br>{{a26.Status }} <br> {{a26.Ip}} -> {{a26.date_1}}</b></button><br>
+          {% else %}
+          <button id="red" type="button" class="btn " style="color:rgb(255, 255, 255);background-color: rgb(255, 0, 0);"><b>{{a26.Rack_Location}} <br> {{a26.Status }}<br> {{a26.Ip}} -> {{a26.date_1}}</button></b><br>
+          {% endif %}
+          <!--27-->
+          {% if a27.Status == 'Reachable' %}
+          <button id="gren" type="button" class="btn " style="color:rgb(255, 255, 255);background-color:green;"><b>{{a27.Rack_Location}}<br>{{a27.Status }} <br> {{a27.Ip}} -> {{a27.date_1}}</b></button>
+          {% elif a27.Status == 'Destination Unreachable' %}
+          <button id="yellow" type="button" class="btn " style="color:rgb(247, 247, 247);background-color: rgb(255, 0, 0);"><b>{{a27.Rack_Location}}</b><br>{{a27.Status }} <br> {{a27.Ip}} -> {{a27.date_1}}</b></button><br>
+          {% else %}
+          <button id="red" type="button" class="btn " style="color:rgb(255, 255, 255);background-color: rgb(255, 0, 0);"><b>{{a27.Rack_Location}} <br> {{a27.Status }}<br> {{a27.Ip}} -> {{a27.date_1}}</button></b><br>
+          {% endif %}
+          
+          <!--28-->
+          {% if a28.Status == 'Reachable' %}
+              <button id="gren" type="button" class="btn " style="color:rgb(255, 255, 255);background-color: green;"><b>{{a28.Rack_Location}}<br>{{a28.Status }} <br> {{a28.Ip}} -> {{a28.date_1}}</b></button>
+          {% elif a28.Status == 'Destination Unreachable' %}
+              <button id="yellow" type="button" class="btn " style="color:rgb(247, 247, 247);background-color: rgb(255, 0, 0);"><b>{{a28.Rack_Location}}</b><br>{{a28.Status }} <br> {{a28.Ip}} -> {{a28.date_1}}</b></button><br>
+          {% else %}
+              <button id="red" type="button" class="btn " style="color:rgb(255, 255, 255);background-color: rgb(255, 0, 0);"><b>{{a28.Rack_Location}} <br> {{a28.Status }}<br> {{a28.Ip}} -> {{a28.date_1}}</button></b><br>
+          {% endif %}
+          <!--29-->
+          {% if a29.Status == 'Reachable' %}
+          <button id="gren" type="button" class="btn " style="color:rgb(255, 255, 255);background-color:green;"><b>{{a29.Rack_Location}}<br>{{a29.Status }} <br> {{a29.Ip}} -> {{a29.date_1}}</b></button>
+          {% elif a29.Status == 'Destination Unreachable' %}
+          <button id="yellow" type="button" class="btn " style="color:rgb(247, 247, 247);background-color: rgb(255, 0, 0);"><b>{{a29.Rack_Location}}</b><br>{{a29.Status }} <br> {{a29.Ip}} -> {{a29.date_1}}</b></button><br>
+          {% else %}
+          <button id="red" type="button" class="btn " style="color:rgb(255, 255, 255);background-color: rgb(255, 0, 0);"><b>{{a29.Rack_Location}} <br> {{a29.Status }}<br> {{a29.Ip}} -> {{a29.date_1}}</button></b><br>
+          {% endif %}
+          <!--30-->
+          {% if a30.Status == 'Reachable' %}
+          <button id="gren" type="button" class="btn " style="color:rgb(255, 255, 255);background-color:green;"><b>{{a30.Rack_Location}}<br>{{a30.Status }} <br> {{a30.Ip}} -> {{a30.date_1}}</b></button>
+          {% elif a30.Status == 'Destination Unreachable' %}
+          <button id="yellow" type="button" class="btn " style="color:rgb(247, 247, 247);background-color: rgb(255, 0, 0);"><b>{{a30.Rack_Location}}</b><br>{{a30.Status }} <br> {{a30.Ip}} -> {{a30.date_1}}</b></button><br>
+          {% else %}
+          <button id="red" type="button" class="btn " style="color:rgb(255, 255, 255);background-color: rgb(255, 0, 0);"><b>{{a30.Rack_Location}} <br> {{a30.Status }}<br> {{a30.Ip}} -> {{a30.date_1}}</button></b><br>
+          {% endif %}
+
+          <!--31-->
+          {% if a31.Status == 'Reachable' %}
+              <button id="gren" type="button" class="btn " style="color:rgb(255, 255, 255);background-color: green;"><b>{{a31.Rack_Location}}<br>{{a31.Status }} <br> {{a31.Ip}} -> {{a31.date_1}}</b></button>
+          {% elif a31.Status == 'Destination Unreachable' %}
+              <button id="yellow" type="button" class="btn " style="color:rgb(247, 247, 247);background-color: rgb(255, 0, 0);"><b>{{a31.Rack_Location}}</b><br>{{a31.Status }} <br> {{a31.Ip}} -> {{a31.date_1}}</b></button><br>
+          {% else %}
+              <button id="red" type="button" class="btn " style="color:rgb(255, 255, 255);background-color: rgb(255, 0, 0);"><b>{{a31.Rack_Location}} <br> {{a31.Status }}<br> {{a31.Ip}} -> {{a31.date_1}}</button></b><br>
+          {% endif %}
+          <!--32-->
+          {% if a32.Status == 'Reachable' %}
+          <button id="gren" type="button" class="btn " style="color:rgb(255, 255, 255);background-color: green;"><b>{{a32.Rack_Location}}<br>{{a32.Status }} <br> {{a32.Ip}} -> {{a32.date_1}}</b></button>
+          {% elif a32.Status == 'Destination Unreachable' %}
+          <button id="yellow" type="button" class="btn " style="color:rgb(247, 247, 247);background-color: rgb(255, 0, 0);"><b>{{a32.Rack_Location}}</b><br>{{a32.Status }} <br> {{a32.Ip}} -> {{a32.date_1}}</b></button><br>
+          {% else %}
+          <button id="red" type="button" class="btn " style="color:rgb(255, 255, 255);background-color: rgb(255, 0, 0);"><b>{{a32.Rack_Location}} <br> {{a32.Status }}<br> {{a32.Ip}} -> {{a32.date_1}}</button></b><br>
+          {% endif %}
+          <!--33-->
+          {% if a33.Status == 'Reachable' %}
+          <button id="gren" type="button" class="btn " style="color:rgb(255, 255, 255);background-color:green;"><b>{{a33.Rack_Location}}<br>{{a33.Status }} <br> {{a33.Ip}} -> {{a33.date_1}}</b></button>
+          {% elif a33.Status == 'Destination Unreachable' %}
+          <button id="yellow" type="button" class="btn " style="color:rgb(247, 247, 247);background-color: rgb(255, 0, 0);"><b>{{a33.Rack_Location}}</b><br>{{a33.Status }} <br> {{a33.Ip}} -> {{a33.date_1}}</b></button><br>
+          {% else %}
+          <button id="red" type="button" class="btn " style="color:rgb(255, 255, 255);background-color: rgb(255, 0, 0);"><b>{{a33.Rack_Location}} <br> {{a33.Status }}<br> {{a33.Ip}} -> {{a33.date_1}}</button></b><br>
+          {% endif %}
+          
+          <!--34-->
+          {% if a34.Status == 'Reachable' %}
+              <button id="gren" type="button" class="btn " style="color:rgb(255, 255, 255);background-color: green;"><b>{{a34.Rack_Location}}<br>{{a34.Status }} <br> {{a34.Ip}} -> {{a34.date_1}}</b></button>
+          {% elif a34.Status == 'Destination Unreachable' %}
+              <button id="yellow" type="button" class="btn " style="color:rgb(247, 247, 247);background-color: rgb(255, 0, 0);"><b>{{a34.Rack_Location}}</b><br>{{a34.Status }} <br> {{a34.Ip}} -> {{a34.date_1}}</b></button><br>
+          {% else %}
+              <button id="red" type="button" class="btn " style="color:rgb(255, 255, 255);background-color: rgb(255, 0, 0);"><b>{{a34.Rack_Location}} <br> {{a34.Status }}<br> {{a34.Ip}} -> {{a34.date_1}}</button></b><br>
+          {% endif %}
+          <!--35-->
+          {% if a35.Status == 'Reachable' %}
+          <button id="gren" type="button" class="btn " style="color:rgb(255, 255, 255);background-color:green;"><b>{{a35.Rack_Location}}<br>{{a35.Status }} <br> {{a35.Ip}} -> {{a35.date_1}}</b></button>
+          {% elif a35.Status == 'Destination Unreachable' %}
+          <button id="yellow" type="button" class="btn " style="color:rgb(247, 247, 247);background-color: rgb(255, 0, 0);"><b>{{a35.Rack_Location}}</b><br>{{a35.Status }} <br> {{a35.Ip}} -> {{a35.date_1}}</b></button><br>
+          {% else %}
+          <button id="red" type="button" class="btn " style="color:rgb(255, 255, 255);background-color: rgb(255, 0, 0);"><b>{{a35.Rack_Location}} <br> {{a35.Status }}<br> {{a35.Ip}} -> {{a35.date_1}}</button></b><br>
+          {% endif %}
+          <!--36-->
+          {% if a36.Status == 'Reachable' %}
+          <button id="gren" type="button" class="btn " style="color:rgb(255, 255, 255);background-color:green;"><b>{{a36.Rack_Location}}<br>{{a36.Status }} <br> {{a36.Ip}} -> {{a36.date_1}}</b></button>
+          {% elif a36.Status == 'Destination Unreachable' %}
+          <button id="yellow" type="button" class="btn " style="color:rgb(247, 247, 247);background-color: rgb(255, 0, 0);"><b>{{a36.Rack_Location}}</b><br>{{a36.Status }} <br> {{a36.Ip}} -> {{a36.date_1}}</b></button><br>
+          {% else %}
+          <button id="red" type="button" class="btn " style="color:rgb(255, 255, 255);background-color: rgb(255, 0, 0);"><b>{{a36.Rack_Location}} <br> {{a36.Status }}<br> {{a36.Ip}} -> {{a36.date_1}}</button></b><br>
+          {% endif %}
+          <!--37-->
+          {% if a37.Status == 'Reachable' %}
+          <button id="gren" type="button" class="btn " style="color:rgb(255, 255, 255);background-color: green;"><b>{{a37.Rack_Location}}<br>{{a37.Status }} <br> {{a37.Ip}} -> {{a37.date_1}}</b></button>
+          {% elif a37.Status == 'Destination Unreachable' %}
+              <button id="yellow" type="button" class="btn " style="color:rgb(247, 247, 247);background-color: rgb(255, 0, 0);"><b>{{a37.Rack_Location}}</b><br>{{a37.Status }} <br> {{a37.Ip}} -> {{a37.date_1}}</b></button><br>
+          {% else %}
+              <button id="red" type="button" class="btn " style="color:rgb(255, 255, 255);background-color: rgb(255, 0, 0);"><b>{{a37.Rack_Location}} <br> {{a37.Status }}<br> {{a37.Ip}} -> {{a37.date_1}}</button></b><br>
+          {% endif %}
+          <!--38-->
+          {% if a38.Status == 'Reachable' %}
+          <button id="gren" type="button" class="btn " style="color:rgb(255, 255, 255);background-color: green;"><b>{{a38.Rack_Location}}<br>{{a38.Status }} <br> {{a38.Ip}} -> {{a38.date_1}}</b></button>
+          {% elif a38.Status == 'Destination Unreachable' %}
+          <button id="yellow" type="button" class="btn " style="color:rgb(247, 247, 247);background-color: rgb(255, 0, 0);"><b>{{a38.Rack_Location}}</b><br>{{a38.Status }} <br> {{a38.Ip}} -> {{a38.date_1}}</b></button><br>
+          {% else %}
+          <button id="red" type="button" class="btn " style="color:rgb(255, 255, 255);background-color: rgb(255, 0, 0);"><b>{{a38.Rack_Location}} <br> {{a38.Status }}<br> {{a38.Ip}} -> {{a38.date_1}}</button></b><br>
+          {% endif %}
+          <!--39-->
+          {% if a39.Status == 'Reachable' %}
+          <button id="gren" type="button" class="btn " style="color:rgb(255, 255, 255);background-color:green;"><b>{{a39.Rack_Location}}<br>{{a39.Status }} <br> {{a39.Ip}} -> {{a39.date_1}}</b></button>
+          {% elif a39.Status == 'Destination Unreachable' %}
+          <button id="yellow" type="button" class="btn " style="color:rgb(247, 247, 247);background-color: rgb(255, 0, 0);"><b>{{a39.Rack_Location}}</b><br>{{a39.Status }} <br> {{a39.Ip}} -> {{a39.date_1}}</b></button><br>
+          {% else %}
+          <button id="red" type="button" class="btn " style="color:rgb(255, 255, 255);background-color: rgb(255, 0, 0);"><b>{{a39.Rack_Location}} <br> {{a39.Status }}<br> {{a39.Ip}} -> {{a39.date_1}}</button></b><br>
+          {% endif %}
+          
+          <!--40-->
+          {% if a40.Status == 'Reachable' %}
+              <button id="gren" type="button" class="btn " style="color:rgb(255, 255, 255);background-color: green;"><b>{{a40.Rack_Location}}<br>{{a40.Status }} <br> {{a40.Ip}} -> {{a40.date_1}}</b></button>
+          {% elif a40.Status == 'Destination Unreachable' %}
+              <button id="yellow" type="button" class="btn " style="color:rgb(247, 247, 247);background-color: rgb(255, 0, 0);"><b>{{a40.Rack_Location}}</b><br>{{a40.Status }} <br> {{a40.Ip}} -> {{a40.date_1}}</b></button><br>
+          {% else %}
+              <button id="red" type="button" class="btn " style="color:rgb(255, 255, 255);background-color: rgb(255, 0, 0);"><b>{{a40.Rack_Location}} <br> {{a40.Status }}<br> {{a40.Ip}} -> {{a40.date_1}}</button></b><br>
+          {% endif %}
+          <!--41-->
+          {% if a41.Status == 'Reachable' %}
+          <button id="gren" type="button" class="btn " style="color:rgb(255, 255, 255);background-color:green;"><b>{{a41.Rack_Location}}<br>{{a41.Status }} <br> {{a41.Ip}} -> {{a41.date_1}}</b></button>
+          {% elif a41.Status == 'Destination Unreachable' %}
+          <button id="yellow" type="button" class="btn " style="color:rgb(247, 247, 247);background-color: rgb(255, 0, 0);"><b>{{a41.Rack_Location}}</b><br>{{a41.Status }} <br> {{a41.Ip}} -> {{a41.date_1}}</b></button><br>
+          {% else %}
+          <button id="red" type="button" class="btn " style="color:rgb(255, 255, 255);background-color: rgb(255, 0, 0);"><b>{{a41.Rack_Location}} <br> {{a41.Status }}<br> {{a41.Ip}} -> {{a41.date_1}}</button></b><br>
+          {% endif %}
+          <!--42-->
+          {% if a42.Status == 'Reachable' %}
+          <button id="gren" type="button" class="btn " style="color:rgb(255, 255, 255);background-color:green;"><b>{{a42.Rack_Location}}<br>{{a42.Status }} <br> {{a42.Ip}} -> {{a42.date_1}}</b></button>
+          {% elif a42.Status == 'Destination Unreachable' %}
+          <button id="yellow" type="button" class="btn " style="color:rgb(247, 247, 247);background-color: rgb(255, 0, 0);"><b>{{a42.Rack_Location}}</b><br>{{a42.Status }} <br> {{a42.Ip}} -> {{a42.date_1}}</b></button><br>
+          {% else %}
+          <button id="red" type="button" class="btn " style="color:rgb(255, 255, 255);background-color: rgb(255, 0, 0);"><b>{{a42.Rack_Location}} <br> {{a42.Status }}<br> {{42.Ip}} -> {{a18.date_1}}</button></b><br>
+          {% endif %}
+
+          <!--43-->
+          {% if a43.Status == 'Reachable' %}
+              <button id="gren" type="button" class="btn " style="color:rgb(255, 255, 255);background-color: green;"><b>{{a43.Rack_Location}}<br>{{a43.Status }} <br> {{a43.Ip}} -> {{a43.date_1}}</b></button>
+          {% elif a43.Status == 'Destination Unreachable' %}
+              <button id="yellow" type="button" class="btn " style="color:rgb(247, 247, 247);background-color: rgb(255, 0, 0);"><b>{{a43.Rack_Location}}</b><br>{{a43.Status }} <br> {{a43.Ip}} -> {{a43.date_1}}</b></button><br>
+          {% else %}
+              <button id="red" type="button" class="btn " style="color:rgb(255, 255, 255);background-color: rgb(255, 0, 0);"><b>{{a43.Rack_Location}} <br> {{a43.Status }}<br> {{a43.Ip}} -> {{a43.date_1}}</button></b><br>
+          {% endif %}
+          <!--44-->
+          {% if a44.Status == 'Reachable' %}
+          <button id="gren" type="button" class="btn " style="color:rgb(255, 255, 255);background-color: green;"><b>{{a44.Rack_Location}}<br>{{a44.Status }} <br> {{a44.Ip}} -> {{a44.date_1}}</b></button>
+          {% elif a44.Status == 'Destination Unreachable' %}
+          <button id="yellow" type="button" class="btn " style="color:rgb(247, 247, 247);background-color: rgb(255, 0, 0);"><b>{{a44.Rack_Location}}</b><br>{{a44.Status }} <br> {{a44.Ip}} -> {{a44.date_1}}</b></button><br>
+          {% else %}
+          <button id="red" type="button" class="btn " style="color:rgb(255, 255, 255);background-color: rgb(255, 0, 0);"><b>{{a44.Rack_Location}} <br> {{a44.Status }}<br> {{a44.Ip}} -> {{a44.date_1}}</button></b><br>
+          {% endif %}
+          <!--45-->
+          {% if a45.Status == 'Reachable' %}
+          <button id="gren" type="button" class="btn " style="color:rgb(255, 255, 255);background-color:green;"><b>{{a45.Rack_Location}}<br>{{a45.Status }} <br> {{a45.Ip}} -> {{a45.date_1}}</b></button>
+          {% elif a45.Status == 'Destination Unreachable' %}
+          <button id="yellow" type="button" class="btn " style="color:rgb(247, 247, 247);background-color: rgb(255, 0, 0);"><b>{{a45.Rack_Location}}</b><br>{{a45.Status }} <br> {{a45.Ip}} -> {{a45.date_1}}</b></button><br>
+          {% else %}
+          <button id="red" type="button" class="btn " style="color:rgb(255, 255, 255);background-color: rgb(255, 0, 0);"><b>{{a45.Rack_Location}} <br> {{a45.Status }}<br> {{a45.Ip}} -> {{a45.date_1}}</button></b><br>
+          {% endif %}
+          
+          <!--46-->
+          {% if a46.Status == 'Reachable' %}
+              <button id="gren" type="button" class="btn " style="color:rgb(255, 255, 255);background-color: green;"><b>{{a46.Rack_Location}}<br>{{a46.Status }} <br> {{a46.Ip}} -> {{a46.date_1}}</b></button>
+          {% elif a46.Status == 'Destination Unreachable' %}
+              <button id="yellow" type="button" class="btn " style="color:rgb(247, 247, 247);background-color: rgb(255, 0, 0);"><b>{{a46.Rack_Location}}</b><br>{{a46.Status }} <br> {{a46.Ip}} -> {{a46.date_1}}</b></button><br>
+          {% else %}
+              <button id="red" type="button" class="btn " style="color:rgb(255, 255, 255);background-color: rgb(255, 0, 0);"><b>{{a46.Rack_Location}} <br> {{a46.Status }}<br> {{a46.Ip}} -> {{a46.date_1}}</button></b><br>
+          {% endif %}
+          <!--47-->
+          {% if a47.Status == 'Reachable' %}
+          <button id="gren" type="button" class="btn " style="color:rgb(255, 255, 255);background-color:green;"><b>{{a47.Rack_Location}}<br>{{a47.Status }} <br> {{a47.Ip}} -> {{a47.date_1}}</b></button>
+          {% elif a47.Status == 'Destination Unreachable' %}
+          <button id="yellow" type="button" class="btn " style="color:rgb(247, 247, 247);background-color: rgb(255, 0, 0);"><b>{{a47.Rack_Location}}</b><br>{{a47.Status }} <br> {{a47.Ip}} -> {47.date_1}}</b></button><br>
+          {% else %}
+          <button id="red" type="button" class="btn " style="color:rgb(255, 255, 255);background-color: rgb(255, 0, 0);"><b>{{a47.Rack_Location}} <br> {{a47.Status }}<br> {{a47.Ip}} -> {{a47.date_1}}</button></b><br>
+          {% endif %}
+          <!--48-->
+          {% if a48.Status == 'Reachable' %}
+          <button id="gren" type="button" class="btn " style="color:rgb(255, 255, 255);background-color:green;"><b>{{a48.Rack_Location}}<br>{{a48.Status }} <br> {{a48.Ip}} -> {{a48.date_1}}</b></button>
+          {% elif a48.Status == 'Destination Unreachable' %}
+          <button id="yellow" type="button" class="btn " style="color:rgb(247, 247, 247);background-color: rgb(255, 0, 0);"><b>{{a48.Rack_Location}}</b><br>{{a48.Status }} <br> {{a48.Ip}} -> {{a48.date_1}}</b></button><br>
+          {% else %}
+          <button id="red" type="button" class="btn " style="color:rgb(255, 255, 255);background-color: rgb(255, 0, 0);"><b>{{a48.Rack_Location}} <br> {{a48.Status }}<br> {{a48.Ip}} -> {{a48.date_1}}</button></b><br>
+          {% endif %}
+          <!--49-->
+          {% if a49.Status == 'Reachable' %}
+              <button id="gren" type="button" class="btn " style="color:rgb(255, 255, 255);background-color: green;"><b>{{a49.Rack_Location}}<br>{{a49.Status }} <br> {{a49.Ip}} -> {{a49.date_1}}</b></button>
+          {% elif a49.Status == 'Destination Unreachable' %}
+              <button id="yellow" type="button" class="btn " style="color:rgb(247, 247, 247);background-color: rgb(255, 0, 0);"><b>{{a49.Rack_Location}}</b><br>{{a49.Status }} <br> {{a49.Ip}} -> {{a49.date_1}}</b></button><br>
+          {% else %}
+              <button id="red" type="button" class="btn " style="color:rgb(255, 255, 255);background-color: rgb(255, 0, 0);"><b>{{a49.Rack_Location}} <br> {{a49.Status }}<br> {{a49.Ip}} -> {{a49.date_1}}</button></b><br>
+          {% endif %}
+          <!--50-->
+          {% if a50.Status == 'Reachable' %}
+          <button id="gren" type="button" class="btn " style="color:rgb(255, 255, 255);background-color: green;"><b>{{a50.Rack_Location}}<br>{{a50.Status }} <br> {{a50.Ip}} -> {{a50.date_1}}</b></button>
+          {% elif a50.Status == 'Destination Unreachable' %}
+          <button id="yellow" type="button" class="btn " style="color:rgb(247, 247, 247);background-color: rgb(255, 0, 0);"><b>{{a50.Rack_Location}}</b><br>{{a50.Status }} <br> {{a50.Ip}} -> {{a50.date_1}}</b></button><br>
+          {% else %}
+          <button id="red" type="button" class="btn " style="color:rgb(255, 255, 255);background-color: rgb(255, 0, 0);"><b>{{a50.Rack_Location}} <br> {{a50.Status }}<br> {{a50.Ip}} -> {{a50.date_1}}</button></b><br>
+          {% endif %}
+          <!--51-->
+          {% if a51.Status == 'Reachable' %}
+          <button id="gren" type="button" class="btn " style="color:rgb(255, 255, 255);background-color:green;"><b>{{a51.Rack_Location}}<br>{{a51.Status }} <br> {{a51.Ip}} -> {{a51.date_1}}</b></button>
+          {% elif a51.Status == 'Destination Unreachable' %}
+          <button id="yellow" type="button" class="btn " style="color:rgb(247, 247, 247);background-color: rgb(255, 0, 0);"><b>{{a51.Rack_Location}}</b><br>{{a51.Status }} <br> {{a51.Ip}} -> {{a51.date_1}}</b></button><br>
+          {% else %}
+          <button id="red" type="button" class="btn " style="color:rgb(255, 255, 255);background-color: rgb(255, 0, 0);"><b>{{a51.Rack_Location}} <br> {{a51.Status }}<br> {{a3.Ip}} -> {{a51.date_1}}</button></b><br>
+          {% endif %}
+          
+          <!--52-->
+          {% if a52.Status == 'Reachable' %}
+              <button id="gren" type="button" class="btn " style="color:rgb(255, 255, 255);background-color: green;"><b>{{a52.Rack_Location}}<br>{{a52.Status }} <br> {{a52.Ip}} -> {{a52.date_1}}</b></button>
+          {% elif a52.Status == 'Destination Unreachable' %}
+              <button id="yellow" type="button" class="btn " style="color:rgb(247, 247, 247);background-color: rgb(255, 0, 0);"><b>{{a52.Rack_Location}}</b><br>{{a52.Status }} <br> {{a52.Ip}} -> {{a52.date_1}}</b></button><br>
+          {% else %}
+              <button id="red" type="button" class="btn " style="color:rgb(255, 255, 255);background-color: rgb(255, 0, 0);"><b>{{a52.Rack_Location}} <br> {{a52.Status }}<br> {{a52.Ip}} -> {{a52.date_1}}</button></b><br>
+          {% endif %}
+          <!--53-->
+          {% if a53.Status == 'Reachable' %}
+          <button id="gren" type="button" class="btn " style="color:rgb(255, 255, 255);background-color:green;"><b>{{a53.Rack_Location}}<br>{{a53.Status }} <br> {{a53.Ip}} -> {{a53.date_1}}</b></button>
+          {% elif a53.Status == 'Destination Unreachable' %}
+          <button id="yellow" type="button" class="btn " style="color:rgb(247, 247, 247);background-color: rgb(255, 0, 0);"><b>{{a53.Rack_Location}}</b><br>{{a53.Status }} <br> {{a53.Ip}} -> {{a53.date_1}}</b></button><br>
+          {% else %}
+          <button id="red" type="button" class="btn " style="color:rgb(255, 255, 255);background-color: rgb(255, 0, 0);"><b>{{a53.Rack_Location}} <br> {{a53.Status }}<br> {{a53.Ip}} -> {{a53.date_1}}</button></b><br>
+          {% endif %}
+          <!--54-->
+          {% if a54.Status == 'Reachable' %}
+          <button id="gren" type="button" class="btn " style="color:rgb(255, 255, 255);background-color:green;"><b>{{a54.Rack_Location}}<br>{{a54.Status }} <br> {{a54.Ip}} -> {{a54.date_1}}</b></button>
+          {% elif a54.Status == 'Destination Unreachable' %}
+          <button id="yellow" type="button" class="btn " style="color:rgb(247, 247, 247);background-color: rgb(255, 0, 0);"><b>{{a54.Rack_Location}}</b><br>{{a54.Status }} <br> {{a54.Ip}} -> {{a54.date_1}}</b></button><br>
+          {% else %}
+          <button id="red" type="button" class="btn " style="color:rgb(255, 255, 255);background-color: rgb(255, 0, 0);"><b>{{a54.Rack_Location}} <br> {{a54.Status }}<br> {{a54.Ip}} -> {{a54.date_1}}</button></b><br>
+          {% endif %}
+
+          <!--55-->
+          {% if a55.Status == 'Reachable' %}
+              <button id="gren" type="button" class="btn " style="color:rgb(255, 255, 255);background-color: green;"><b>{{a55.Rack_Location}}<br>{{a55.Status }} <br> {{a55.Ip}} -> {{a55.date_1}}</b></button>
+          {% elif a55.Status == 'Destination Unreachable' %}
+              <button id="yellow" type="button" class="btn " style="color:rgb(247, 247, 247);background-color: rgb(255, 0, 0);"><b>{{a55.Rack_Location}}</b><br>{{a55.Status }} <br> {{a55.Ip}} -> {{a55.date_1}}</b></button><br>
+          {% else %}
+              <button id="red" type="button" class="btn " style="color:rgb(255, 255, 255);background-color: rgb(255, 0, 0);"><b>{{a55.Rack_Location}} <br> {{a55.Status }}<br> {{a55.Ip}} -> {{a55.date_1}}</button></b><br>
+          {% endif %}
+          <!--56-->
+          {% if a56.Status == 'Reachable' %}
+          <button id="gren" type="button" class="btn " style="color:rgb(255, 255, 255);background-color: green;"><b>{{a56.Rack_Location}}<br>{{a56.Status }} <br> {{a56.Ip}} -> {{a56.date_1}}</b></button>
+          {% elif a56.Status == 'Destination Unreachable' %}
+          <button id="yellow" type="button" class="btn " style="color:rgb(247, 247, 247);background-color: rgb(255, 0, 0);"><b>{{a56.Rack_Location}}</b><br>{{a56.Status }} <br> {{a56.Ip}} -> {{a56.date_1}}</b></button><br>
+          {% else %}
+          <button id="red" type="button" class="btn " style="color:rgb(255, 255, 255);background-color: rgb(255, 0, 0);"><b>{{a56.Rack_Location}} <br> {{a56.Status }}<br> {{a56.Ip}} -> {{a56.date_1}}</button></b><br>
+          {% endif %}
+          <!--57-->
+          {% if a57.Status == 'Reachable' %}
+          <button id="gren" type="button" class="btn " style="color:rgb(255, 255, 255);background-color:green;"><b>{{a57.Rack_Location}}<br>{{a57.Status }} <br> {{a57.Ip}} -> {{a57.date_1}}</b></button>
+          {% elif a57.Status == 'Destination Unreachable' %}
+          <button id="yellow" type="button" class="btn " style="color:rgb(247, 247, 247);background-color: rgb(255, 0, 0);"><b>{{a57.Rack_Location}}</b><br>{{a57.Status }} <br> {{a57.Ip}} -> {{a57.date_1}}</b></button><br>
+          {% else %}
+          <button id="red" type="button" class="btn " style="color:rgb(255, 255, 255);background-color: rgb(255, 0, 0);"><b>{{a57.Rack_Location}} <br> {{a57.Status }}<br> {{a57.Ip}} -> {{a57.date_1}}</button></b><br>
+          {% endif %}
+          
+          <!--58-->
+          {% if a58.Status == 'Reachable' %}
+              <button id="gren" type="button" class="btn " style="color:rgb(255, 255, 255);background-color: green;"><b>{{a58.Rack_Location}}<br>{{a58.Status }} <br> {{a58.Ip}} -> {{a58.date_1}}</b></button>
+          {% elif a58.Status == 'Destination Unreachable' %}
+              <button id="yellow" type="button" class="btn " style="color:rgb(247, 247, 247);background-color: rgb(255, 0, 0);"><b>{{a58.Rack_Location}}</b><br>{{a58.Status }} <br> {{a58.Ip}} -> {{a58.date_1}}</b></button><br>
+          {% else %}
+              <button id="red" type="button" class="btn " style="color:rgb(255, 255, 255);background-color: rgb(255, 0, 0);"><b>{{a58.Rack_Location}} <br> {{a58.Status }}<br> {{a58.Ip}} -> {{a58.date_1}}</button></b><br>
+          {% endif %}
+          <!--59-->
+          {% if a59.Status == 'Reachable' %}
+          <button id="gren" type="button" class="btn " style="color:rgb(255, 255, 255);background-color:green;"><b>{{a59.Rack_Location}}<br>{{a59.Status }} <br> {{a59.Ip}} -> {{a59.date_1}}</b></button>
+          {% elif a59.Status == 'Destination Unreachable' %}
+          <button id="yellow" type="button" class="btn " style="color:rgb(247, 247, 247);background-color: rgb(255, 0, 0);"><b>{{a59.Rack_Location}}</b><br>{{a59.Status }} <br> {{a59.Ip}} -> {{a11.date_1}}</b></button><br>
+          {% else %}
+          <button id="red" type="button" class="btn " style="color:rgb(255, 255, 255);background-color: rgb(255, 0, 0);"><b>{{a59.Rack_Location}} <br> {{a59.Status }}<br> {{a59.Ip}} -> {{a59.date_1}}</button></b><br>
+          {% endif %}
+
+          <!--60-->
+          {% if a60.Status == 'Reachable' %}
+          <button id="gren" type="button" class="btn " style="color:rgb(255, 255, 255);background-color:green;"><b>{{a60.Rack_Location}}<br>{{a60.Status }} <br> {{a60.Ip}} -> {{a60.date_1}}</b></button>
+          {% elif a60.Status == 'Destination Unreachable' %}
+          <button id="yellow" type="button" class="btn " style="color:rgb(247, 247, 247);background-color: rgb(255, 0, 0);"><b>{{a54.Rack_Location}}</b><br>{{a54.Status }} <br> {{a60.Ip}} -> {{a60.date_1}}</b></button><br>
+          {% else %}
+          <button id="red" type="button" class="btn " style="color:rgb(255, 255, 255);background-color: rgb(255, 0, 0);"><b>{{a60.Rack_Location}} <br> {{a60.Status }}<br> {{a60.Ip}} -> {{a60.date_1}}</button></b><br>
+          {% endif %}
+          {%else%}
+          <button id="yellow" type="button" class="btn " style="color:rgb(247, 247, 247);background-color: rgb(255, 0, 0);"><b>{{a1.Rack_Location}}</b><br>{{a1.Status }} <br> {{a1.Ip}} -> {{a1.date_1}}</b></button><br>
+          <button id="yellow" type="button" class="btn " style="color:rgb(247, 247, 247);background-color: rgb(255, 0, 0);"><b>{{a2.Rack_Location}}</b><br>{{a2.Status }} <br> {{a2.Ip}} -> {{a2.date_1}}</b></button><br>
+          <button id="yellow" type="button" class="btn " style="color:rgb(247, 247, 247);background-color: rgb(255, 0, 0);"><b>{{a3.Rack_Location}}</b><br>{{a3.Status }} <br> {{a3.Ip}} -> {{a3.date_1}}</b></button><br>
+          <button id="yellow" type="button" class="btn " style="color:rgb(247, 247, 247);background-color: rgb(255, 0, 0);"><b>{{a4.Rack_Location}}</b><br>{{a4.Status }} <br> {{a4.Ip}} -> {{a4.date_1}}</b></button><br>
+          <button id="yellow" type="button" class="btn " style="color:rgb(247, 247, 247);background-color: rgb(255, 0, 0);"><b>{{a5.Rack_Location}}</b><br>{{a5.Status }} <br> {{a5.Ip}} -> {{a5.date_1}}</b></button><br>
+          <button id="yellow" type="button" class="btn " style="color:rgb(247, 247, 247);background-color: rgb(255, 0, 0);"><b>{{a6.Rack_Location}}</b><br>{{a6.Status }} <br> {{a6.Ip}} -> {{a6.date_1}}</b></button><br>
+          <button id="yellow" type="button" class="btn " style="color:rgb(247, 247, 247);background-color: rgb(255, 0, 0);"><b>{{a7.Rack_Location}}</b><br>{{a7.Status }} <br> {{a7.Ip}} -> {{a7.date_1}}</b></button><br>
+          <button id="yellow" type="button" class="btn " style="color:rgb(247, 247, 247);background-color: rgb(255, 0, 0);"><b>{{a8.Rack_Location}}</b><br>{{a8.Status }} <br> {{a8.Ip}} -> {{a8.date_1}}</b></button><br>
+          <button id="yellow" type="button" class="btn " style="color:rgb(247, 247, 247);background-color: rgb(255, 0, 0);"><b>{{a9.Rack_Location}}</b><br>{{a9.Status }} <br> {{a9.Ip}} -> {{a9.date_1}}</b></button><br>
+          <button id="yellow" type="button" class="btn " style="color:rgb(247, 247, 247);background-color: rgb(255, 0, 0);"><b>{{a10.Rack_Location}}</b><br>{{a10.Status }} <br> {{a10.Ip}} -> {{a10.date_1}}</b></button><br>
+          <button id="yellow" type="button" class="btn " style="color:rgb(247, 247, 247);background-color: rgb(255, 0, 0);"><b>{{a11.Rack_Location}}</b><br>{{a11.Status }} <br> {{a11.Ip}} -> {{a11.date_1}}</b></button><br>
+          <button id="yellow" type="button" class="btn " style="color:rgb(247, 247, 247);background-color: rgb(255, 0, 0);"><b>{{a12.Rack_Location}}</b><br>{{a12.Status }} <br> {{a12.Ip}} -> {{a12.date_1}}</b></button><br>
+          <button id="yellow" type="button" class="btn " style="color:rgb(247, 247, 247);background-color: rgb(255, 0, 0);"><b>{{a13.Rack_Location}}</b><br>{{a13.Status }} <br> {{a13.Ip}} -> {{a13.date_1}}</b></button><br>
+          <button id="yellow" type="button" class="btn " style="color:rgb(247, 247, 247);background-color: rgb(255, 0, 0);"><b>{{a14.Rack_Location}}</b><br>{{a14.Status }} <br> {{a14.Ip}} -> {{a14.date_1}}</b></button><br>
+          <button id="yellow" type="button" class="btn " style="color:rgb(247, 247, 247);background-color: rgb(255, 0, 0);"><b>{{a15.Rack_Location}}</b><br>{{a15.Status }} <br> {{a15.Ip}} -> {{a15.date_1}}</b></button><br>
+          <button id="yellow" type="button" class="btn " style="color:rgb(247, 247, 247);background-color: rgb(255, 0, 0);"><b>{{a16.Rack_Location}}</b><br>{{a16.Status }} <br> {{a16.Ip}} -> {{a16.date_1}}</b></button><br>
+          <button id="yellow" type="button" class="btn " style="color:rgb(247, 247, 247);background-color: rgb(255, 0, 0);"><b>{{a17.Rack_Location}}</b><br>{{a17.Status }} <br> {{a17.Ip}} -> {{a17.date_1}}</b></button><br>
+          <button id="yellow" type="button" class="btn " style="color:rgb(247, 247, 247);background-color: rgb(255, 0, 0);"><b>{{a18.Rack_Location}}</b><br>{{a18.Status }} <br> {{a18.Ip}} -> {{a18.date_1}}</b></button><br>
+          <button id="yellow" type="button" class="btn " style="color:rgb(247, 247, 247);background-color: rgb(255, 0, 0);"><b>{{a19.Rack_Location}}</b><br>{{a19.Status }} <br> {{a19.Ip}} -> {{a19.date_1}}</b></button><br>
+          <button id="yellow" type="button" class="btn " style="color:rgb(247, 247, 247);background-color: rgb(255, 0, 0);"><b>{{a20.Rack_Location}}</b><br>{{a20.Status }} <br> {{a20.Ip}} -> {{a20.date_1}}</b></button><br>
+          <button id="yellow" type="button" class="btn " style="color:rgb(247, 247, 247);background-color: rgb(255, 0, 0);"><b>{{a21.Rack_Location}}</b><br>{{a21.Status }} <br> {{a21.Ip}} -> {{a21.date_1}}</b></button><br>
+          <button id="yellow" type="button" class="btn " style="color:rgb(247, 247, 247);background-color: rgb(255, 0, 0);"><b>{{a22.Rack_Location}}</b><br>{{a22.Status }} <br> {{a22.Ip}} -> {{a22.date_1}}</b></button><br>
+          <button id="yellow" type="button" class="btn " style="color:rgb(247, 247, 247);background-color: rgb(255, 0, 0);"><b>{{a23.Rack_Location}}</b><br>{{a23.Status }} <br> {{a23.Ip}} -> {{a23.date_1}}</b></button><br>
+          <button id="yellow" type="button" class="btn " style="color:rgb(247, 247, 247);background-color: rgb(255, 0, 0);"><b>{{a24.Rack_Location}}</b><br>{{a24.Status }} <br> {{a24.Ip}} -> {{a24.date_1}}</b></button><br>
+          <button id="yellow" type="button" class="btn " style="color:rgb(247, 247, 247);background-color: rgb(255, 0, 0);"><b>{{a25.Rack_Location}}</b><br>{{a25.Status }} <br> {{a25.Ip}} -> {{a25.date_1}}</b></button><br>
+          <button id="yellow" type="button" class="btn " style="color:rgb(247, 247, 247);background-color: rgb(255, 0, 0);"><b>{{a26.Rack_Location}}</b><br>{{a26.Status }} <br> {{a26.Ip}} -> {{a26.date_1}}</b></button><br>
+          <button id="yellow" type="button" class="btn " style="color:rgb(247, 247, 247);background-color: rgb(255, 0, 0);"><b>{{a27.Rack_Location}}</b><br>{{a27.Status }} <br> {{a27.Ip}} -> {{a27.date_1}}</b></button><br>
+          <button id="yellow" type="button" class="btn " style="color:rgb(247, 247, 247);background-color: rgb(255, 0, 0);"><b>{{a28.Rack_Location}}</b><br>{{a28.Status }} <br> {{a28.Ip}} -> {{a28.date_1}}</b></button><br>
+          <button id="yellow" type="button" class="btn " style="color:rgb(247, 247, 247);background-color: rgb(255, 0, 0);"><b>{{a29.Rack_Location}}</b><br>{{a29.Status }} <br> {{a29.Ip}} -> {{a29.date_1}}</b></button><br>
+          <button id="yellow" type="button" class="btn " style="color:rgb(247, 247, 247);background-color: rgb(255, 0, 0);"><b>{{a30.Rack_Location}}</b><br>{{a30.Status }} <br> {{a30.Ip}} -> {{a30.date_1}}</b></button><br>
+          <button id="yellow" type="button" class="btn " style="color:rgb(247, 247, 247);background-color: rgb(255, 0, 0);"><b>{{a31.Rack_Location}}</b><br>{{a31.Status }} <br> {{a31.Ip}} -> {{a31.date_1}}</b></button><br>
+          <button id="yellow" type="button" class="btn " style="color:rgb(247, 247, 247);background-color: rgb(255, 0, 0);"><b>{{a32.Rack_Location}}</b><br>{{a32.Status }} <br> {{a32.Ip}} -> {{a32.date_1}}</b></button><br>
+          <button id="yellow" type="button" class="btn " style="color:rgb(247, 247, 247);background-color: rgb(255, 0, 0);"><b>{{a33.Rack_Location}}</b><br>{{a33.Status }} <br> {{a33.Ip}} -> {{a33.date_1}}</b></button><br>
+          <button id="yellow" type="button" class="btn " style="color:rgb(247, 247, 247);background-color: rgb(255, 0, 0);"><b>{{a34.Rack_Location}}</b><br>{{a34.Status }} <br> {{a34.Ip}} -> {{a34.date_1}}</b></button><br>
+          <button id="yellow" type="button" class="btn " style="color:rgb(247, 247, 247);background-color: rgb(255, 0, 0);"><b>{{a35.Rack_Location}}</b><br>{{a35.Status }} <br> {{a35.Ip}} -> {{a35.date_1}}</b></button><br>
+          <button id="yellow" type="button" class="btn " style="color:rgb(247, 247, 247);background-color: rgb(255, 0, 0);"><b>{{a36.Rack_Location}}</b><br>{{a36.Status }} <br> {{a36.Ip}} -> {{a36.date_1}}</b></button><br>
+          <button id="yellow" type="button" class="btn " style="color:rgb(247, 247, 247);background-color: rgb(255, 0, 0);"><b>{{a37.Rack_Location}}</b><br>{{a37.Status }} <br> {{a37.Ip}} -> {{a37.date_1}}</b></button><br>
+          <button id="yellow" type="button" class="btn " style="color:rgb(247, 247, 247);background-color: rgb(255, 0, 0);"><b>{{a38.Rack_Location}}</b><br>{{a38.Status }} <br> {{a38.Ip}} -> {{a38.date_1}}</b></button><br>
+          <button id="yellow" type="button" class="btn " style="color:rgb(247, 247, 247);background-color: rgb(255, 0, 0);"><b>{{a39.Rack_Location}}</b><br>{{a39.Status }} <br> {{a39.Ip}} -> {{a39.date_1}}</b></button><br>
+          <button id="yellow" type="button" class="btn " style="color:rgb(247, 247, 247);background-color: rgb(255, 0, 0);"><b>{{a40.Rack_Location}}</b><br>{{a40.Status }} <br> {{a40.Ip}} -> {{a40.date_1}}</b></button><br>
+          <button id="yellow" type="button" class="btn " style="color:rgb(247, 247, 247);background-color: rgb(255, 0, 0);"><b>{{a41.Rack_Location}}</b><br>{{a41.Status }} <br> {{a41.Ip}} -> {{a41.date_1}}</b></button><br>
+          <button id="yellow" type="button" class="btn " style="color:rgb(247, 247, 247);background-color: rgb(255, 0, 0);"><b>{{a42.Rack_Location}}</b><br>{{a42.Status }} <br> {{a42.Ip}} -> {{a42.date_1}}</b></button><br>
+          <button id="yellow" type="button" class="btn " style="color:rgb(247, 247, 247);background-color: rgb(255, 0, 0);"><b>{{a43.Rack_Location}}</b><br>{{a43.Status }} <br> {{a43.Ip}} -> {{a43.date_1}}</b></button><br>
+          <button id="yellow" type="button" class="btn " style="color:rgb(247, 247, 247);background-color: rgb(255, 0, 0);"><b>{{a44.Rack_Location}}</b><br>{{a44.Status }} <br> {{a44.Ip}} -> {{a44.date_1}}</b></button><br>
+          <button id="yellow" type="button" class="btn " style="color:rgb(247, 247, 247);background-color: rgb(255, 0, 0);"><b>{{a45.Rack_Location}}</b><br>{{a45.Status }} <br> {{a45.Ip}} -> {{a45.date_1}}</b></button><br>
+          <button id="yellow" type="button" class="btn " style="color:rgb(247, 247, 247);background-color: rgb(255, 0, 0);"><b>{{a46.Rack_Location}}</b><br>{{a46.Status }} <br> {{a46.Ip}} -> {{a46.date_1}}</b></button><br>
+          <button id="yellow" type="button" class="btn " style="color:rgb(247, 247, 247);background-color: rgb(255, 0, 0);"><b>{{a47.Rack_Location}}</b><br>{{a47.Status }} <br> {{a47.Ip}} -> {{a47.date_1}}</b></button><br>
+          <button id="yellow" type="button" class="btn " style="color:rgb(247, 247, 247);background-color: rgb(255, 0, 0);"><b>{{a48.Rack_Location}}</b><br>{{a48.Status }} <br> {{a48.Ip}} -> {{a48.date_1}}</b></button><br>
+          <button id="yellow" type="button" class="btn " style="color:rgb(247, 247, 247);background-color: rgb(255, 0, 0);"><b>{{a49.Rack_Location}}</b><br>{{a49.Status }} <br> {{a49.Ip}} -> {{a49.date_1}}</b></button><br>
+          <button id="yellow" type="button" class="btn " style="color:rgb(247, 247, 247);background-color: rgb(255, 0, 0);"><b>{{a50.Rack_Location}}</b><br>{{a50.Status }} <br> {{a50.Ip}} -> {{a50.date_1}}</b></button><br>
+          <button id="yellow" type="button" class="btn " style="color:rgb(247, 247, 247);background-color: rgb(255, 0, 0);"><b>{{a51.Rack_Location}}</b><br>{{a51.Status }} <br> {{a51.Ip}} -> {{a51.date_1}}</b></button><br>
+          <button id="yellow" type="button" class="btn " style="color:rgb(247, 247, 247);background-color: rgb(255, 0, 0);"><b>{{a52.Rack_Location}}</b><br>{{a52.Status }} <br> {{a52.Ip}} -> {{a52.date_1}}</b></button><br>
+          <button id="yellow" type="button" class="btn " style="color:rgb(247, 247, 247);background-color: rgb(255, 0, 0);"><b>{{a53.Rack_Location}}</b><br>{{a53.Status }} <br> {{a53.Ip}} -> {{a53.date_1}}</b></button><br>
+          <button id="yellow" type="button" class="btn " style="color:rgb(247, 247, 247);background-color: rgb(255, 0, 0);"><b>{{a53.Rack_Location}}</b><br>{{a53.Status }} <br> {{a53.Ip}} -> {{a54.date_1}}</b></button><br>
+          <button id="yellow" type="button" class="btn " style="color:rgb(247, 247, 247);background-color: rgb(255, 0, 0);"><b>{{a54.Rack_Location}}</b><br>{{a54.Status }} <br> {{a54.Ip}} -> {{a55.date_1}}</b></button><br>
+          <button id="yellow" type="button" class="btn " style="color:rgb(247, 247, 247);background-color: rgb(255, 0, 0);"><b>{{a56.Rack_Location}}</b><br>{{a55.Status }} <br> {{a55.Ip}} -> {{a56.date_1}}</b></button><br>
+          <button id="yellow" type="button" class="btn " style="color:rgb(247, 247, 247);background-color: rgb(255, 0, 0);"><b>{{a57.Rack_Location}}</b><br>{{a57.Status }} <br> {{a57.Ip}} -> {{a57.date_1}}</b></button><br>
+          <button id="yellow" type="button" class="btn " style="color:rgb(247, 247, 247);background-color: rgb(255, 0, 0);"><b>{{a58.Rack_Location}}</b><br>{{a58.Status }} <br> {{a58.Ip}} -> {{a58.date_1}}</b></button><br>
+          <button id="yellow" type="button" class="btn " style="color:rgb(247, 247, 247);background-color: rgb(255, 0, 0);"><b>{{a59.Rack_Location}}</b><br>{{a59.Status }} <br> {{a59.Ip}} -> {{a59.date_1}}</b></button><br>
+          <button id="yellow" type="button" class="btn " style="color:rgb(247, 247, 247);background-color: rgb(255, 0, 0);"><b>{{a60.Rack_Location}}</b><br>{{a60.Status }} <br> {{a60.Ip}} -> {{a60.date_1}}</b></button><br>
+          {%endif%}
+          <!-- {% for item in z%}
+          {% if item.Status == 'Reachable' %}
+              <button id="gren" type="button" class="btn " style="color:rgb(255, 255, 255)"><b>{{item.Rack_Location}}<br>{{item.Status }} <br> {{item.Ip}} -> {{item.date_1}}</b></button>
+          {% elif item.Status == 'Destination Unreachable' %}
+              <button id="yellow" type="button" class="btn " style="color:rgb(247, 247, 247)"><b>{{item.Rack_Location}}</b><br>{{item.Status }} <br> {{item.Ip}} -> {{item.date_1}}</b></button><br>
+          {% else %}
+              <button id="red" type="button" class="btn " style="color:rgb(255, 255, 255)"><b>{{item.Rack_Location}} <br> {{item.Status }}<br> {{item.Ip}} -> {{item.date_1}}</button></b><br>
+            {% endif %}
+          {% endfor %} -->
+          
+          <div class="col-lg-8 d-flex align-items-strech">
+            <div class="card w-100">
+              <div class="card-body">
+                <div class="d-sm-flex d-block align-items-center justify-content-between mb-9">
+                  <div class="mb-3 mb-sm-0">
+                    <h5 class="card-title fw-semibold">Real Time Ping</h5>
+
+                  </div>
+                  <!-- <div>
+                    <select class="form-select">
+                      <option value="1">2023</option>
+                    </select>
+                  </div> -->
+
+                </div>
+                <div class="name">
+                  <div style="height: 300px;width:250px" ><canvas id="ipStatusChart"></canvas></div>&nbsp;&nbsp;
+                <!-- <div ><canvas id="ipStatusChart" ></canvas></div> -->
+                <div style="height: 300px;width:250px"><canvas id="StatusChart" ></canvas></div>
+              </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="row">
+              <div class="col-lg-12">
+                <!-- Yearly Breakup -->
+                <div class="card overflow-hidden">
+                  <div class="card-body p-4">
+                    <h5 class="card-title mb-9 fw-semibold">Unreachable Ip</h5>
+                    <div class="row align-items-center" style="height: 300PX;overflow:auto">
+                      <!-- <div class="col-8"> -->
+                        <!-- <div class="card-body p-4"> -->
+                          
+                      
+
+                        
+                      {% for item in P  %}
+                      {% if item.Status == 'Reachable' %}
+                      {% elif item.Status == 'Destination Unreachable' %}
+                          <button id="yellow" type="button" class="btn " style="color:rgb(247, 247, 247)">{{item.date_1 }}<br>{{item.Status }} <br> {{item.Ip}} -> {{item.Rack_Location}}</button><br>
+                      {% else %}
+                          <button id="red" type="button" class="btn " style="color:rgb(255, 255, 255)">{{item.date_1 }} <br> {{item.Status }}<br> {{item.Ip}} -> {{item.Rack_Location}}</button><br>
+                        {% endif %}
+                      {% endfor %}
+                                    <!-- </div> -->
+                  
+                        
+                        </div>
+                      </div>
+                      <!-- Donut Graph -->
+                      <div class="col-4">
+                        <div class="d-flex justify-content-center">
+
+                          <!-- <div id="breakup"></div> -->
+                        </div>
+                      </div>
+                      <!-- Exit Donut Graph -->
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-12">
+                <!-- Monthly Earnings -->
+                <div class="card">
+                  <div class="card-body">
+                    <div class="row alig n-items-start">
+                      <div class="col-8" style="width:fit-content;overflow:auto">
+                        <!-- <h5 class="card-title mb-9 fw-semibold"> Week Data </h5> -->
+                        <h4 class="fw-semibold mb-3">Network Connection</h4>
+                        <!-- <div class="d-flex align-items-center pb-1">
+                          <span
+                            class="me-2 rounded-circle bg-light-danger round-20 d-flex align-items-center justify-content-center">
+                            <i class="ti ti-arrow-down-right text-danger"></i>
+                          </span>
+                          
+                          <p class="text-dark me-1 fs-3 mb-0"></p>
+                          <p class="fs-3 mb-0">Image</p>
+                        </div>
+                      </div> -->
+                      <img id="myimage" src="{% static 'img/Network-Connection_2.svg' %}" width="180" alt="" class="imm" style="width: 1000px;height:600px">
+
+                      <div class="col-4">
+                        <!-- <div class="d-flex justify-content-end">
+                          <div
+                            class="text-white bg-secondary rounded-circle p-6 d-flex align-items-center justify-content-center">
+                            <i class="ti ti-currency-dollar fs-6"></i>
+                          </div>
+                        </div> -->
+                      </div>
+                    </div>
+                  </div>
+                  <!-- <div id="earning"></div> -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- <p style="color: brown;"><i>Graph Between Price and Quantity</i></p> -->
+            
+      
+        <div  class="row">
+          <div class="col-lg-4 d-flex align-items-stretch">
+            <div class="card w-100">
+              <div class="card-body p-4">
+                <div class="mb-4" id="form-container">
+                  <h5 class="card-title fw-semibold">Next Ip</h5>
+                
+                <table class="table text-nowrap mb-0 align-middle">
+                  
+                
+                    
+                    <thead class="text-dark fs-4">
+                      {% if status_1 == 'Connected' %}
+                        <form id="myF"   method="post" action="{% url 'desktop' %}">
+                          {%csrf_token%}
+                        <tr>
+                          
+                            <label for="green">ip_address: </label>&nbsp;
+                            <input class="bx"  id="green" value="{{current_value}}" style="color:rgb(255, 255, 255);background-color: green;"  type="text" placeholder="8.8.8.8"  name="ip_address" readonly><br><br>
+                            <label for="green">status: </label>&nbsp;
+                            <input class="bx"   id="green" value="{{Loc}}" style="color:rgb(255, 255, 255);background-color: green;"  type="text" placeholder="8.8.8.8"  name="Loc" readonly>
+                          
+                            
+                            <br>
+                          </form>
+                            {% else %}
+                            <label for="green">ip_address: </label>&nbsp;
+                            <input class="bx"  id="green" value="{{current_value}}" style="color:rgb(255, 255, 255);background-color: rgb(255, 40, 0);"  type="text" placeholder="8.8.8.8"  name="ip_address" readonly><br><br>
+                            <label for="green">status: </label>&nbsp;
+                            <input class="bx"   id="green" value="{{Loc}}" style="color:rgb(255, 255, 255);background-color: rgb(255, 40, 3);"  type="text" placeholder="8.8.8.8"  name="Loc" readonly>
+                            {%endif%}
+                            <br>
+                    
+                          <!-- </marquee> -->
+                          
+
+                      </tr>
+                      <tr>
+                      
+                          <!-- <marquee id="myMarquee"  behavior="scroll" direction="left" onscroll="checkScroll()"> -->
+                            
+
+                            
+                            
+
+                          
+            
+                        <!-- </marquee> -->
+                    
+                    </tr>
+
+                  </thead>
+                </table>
+              </div>
+                <br>
+                <br>
+                <br>
+              
+              </div>
+            </div>
+          </div>
+          
+          <div class="col-lg-8 d-flex align-items-stretch">
+            <div class="card w-100">
+              <div class="card-body p-4">
+                <h5 class="card-title fw-semibold mb-4">Your Data</h5>
+                <strong><p>Your Id: {{user_id}}</p></strong>
+                <div class="table-responsive" style="height: 200px;overflow:auto">
+                  <table class="table text-nowrap mb-0 align-middle" style="height: 50px;">
+
+                    <thead class="text-dark fs-4" style="text-decoration: underline ;text-decoration-color:rgb(151, 28, 28)">
+                      <!-- {% if result %}
+                      <h2>Ping Result:</h2>
+                      <pre >{{ result|safe }}</pre>
+                  {% endif %} -->
+                      <th>
+                        
+                        <h6 class="fw-semibold mb-0" > Date/Time</h6>
+                        <ul>
+                          {% for ite in P %}
+                              <li>{{ ite.date_1}}</li>
+                              <!-- Include other fields as needed -->
+                          {% endfor %}
+                      </ul>
+                      </th>
+                        <th>
+                          <h6 class="fw-semibold mb-0">Ip </h6>
+                          <ul>
+                            {% for ite in P %}
+                                <li>{{ ite.Ip}}</li>
+                                <!-- Include other fields as needed -->
+                            {% endfor %}
+                        </ul>
+                        </th>
+
+                        <th class="border-bottom-0">
+                          <h6 class="fw-semibold mb-0">Status</h6>
+                          <ul>
+                            {% for ite in P %}
+                                <li>{{ ite.Status }} </li>
+                                <!-- Include other fields as needed -->
+                            {% endfor %}
+                        </ul>
+                        </th>
+
+                        <th class="border-bottom-0">
+                          <h6 class="fw-semibold mb-0">Rack_Location</h6>
+                          <ul>
+                            {% for item in P %}
+                                <li>{{ item.Rack_Location }} </li>
+                                <!-- Include other fields as needed -->
+                            {% endfor %}
+                        </ul>
+                        </th>
+                    </thead>
+                  </table>
+                </div>
+
+            </div>
+          </div>
+        </div>
+
+
+          
+
+        </div>
+        
+
+        <div class="row align-items-center" style="height: auto;overflow:auto">
+
+            
+            </div>
+        <div class="py-6 px-6 text-center">
+          <p class="mb-0 fs-4">{{now}}</p>
+          <p class="mb-0 fs-4">Design and Developed by <a href="" target="_blank" class="pe-1 text-primary text-decoration-underline">L.S.S</a> </p>
+        </div>
+      </div>
+
+</div>
+<script src="{% static 'js/jquery.min.js'%}"></script>
+<script src="{% static 'js/bootstrap.bundle.min.js'%}"></script>
+<script src="{% static 'js/sidebarmenu.js'%}"></script>
+<script src="{% static 'js/app.min.js' %}"></script>
+<script src="{% static 'js/apexcharts.min.js'%}"></script>
+<script src="{% static 'js/simplebar.js' %}"></script>
+<script src="{% static 'js/dashboard.js'%}"></script>
+<script src="{% static 'js/index.js'%}"></script>
+<script src="{% static 'js/cred.js'%}"></script>
+
+<!-- <script src="{% static 'js\cred.js'%}"></script> -->
+<script>
+  var ctx = document.getElementById('ipStatusChart').getContext('2d');
+  var ipStatusChart = new Chart(ctx, {
+      type: 'pie',
+      data: {
+          labels: {{ labes|safe }},
+          datasets: [{
+              data: {{ dat|safe }},
+              backgroundColor: [
+                  'rgb(255, 99, 132)',
+                  'rgb(54, 162, 235)',
+                  'rgb(255, 206, 86)',
+                  'rgb(15, 12, 92)',
+                  'rgb(153, 102, 255)'
+              ]
+          }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            position: 'top',
+          },
+          title: {
+            display: true,
+            text: 'Status',
+            color:'red'
+            
+          }
+        }
+      },
+  });
+</script>
+<script>
+  var ctx = document.getElementById('StatusChart').getContext('2d');
+  var StatusChart = new Chart(ctx, {
+      type: 'pie',
+      data: {
+          labels:{{ labels|safe }},
+
+          datasets: [{
+              data: {{ dat|safe }},
+              backgroundColor: [
+                  'rgb(255, 99, 132)',
+                  'rgb(54, 162, 235)',
+                  'rgb(255, 206, 86)',
+                  'rgb(15, 12, 92)',
+                  'rgb(153, 102, 255)'
+              ]
+
+          }],
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            position: 'top',
+          },
+          title: {
+            display: true,
+            text: 'Ip',
+            color:'red'
+            
+          }
+        }
+      },
+      
+  });
+  
+</script>
+<script>
+  
+
+  var z={{status|safe}};
+  var y="{{status_1|safe}}"
+  if (z ){
+    alert("Network Status: " + y) ; 
+
+  }
+  else{
+
+  }
+</script>
+
+<script>
+  $(document).ready(function() {
+    function submitForm() {
+      $.ajax({
+        url: 'desktop', // URL to your Django view
+        type: 'POST',
+        data: $('#myF').serialize(),
+        dataType: 'json',
+        success: function(response) {
+          if (response.form_html) {
+            $('#form-container').html(response.form_html);
+          } else if (response.form_errors) {
+            // Handle form errors if needed
+          }
+        },
+        error: function(xhr, status, error) {
+          console.error('Error:', error);
+        }
+      });
+    }
+  
+    // Submit the form every 30 seconds
+    setInterval(function() {
+      submitForm();
+    }, 15000); // 30 seconds
+  });
+</script>
+<script>
+  // Function to open the message box
+    function openMessageBox() {
+        var messageBox = document.getElementById('messageBox');
+        if (messageBox.style.display === 'block') {
+            messageBox.style.display = 'none';
+        } else {
+            messageBox.style.display = 'block';
+        }
+    }
+
+  // Function to send a message
+  function sendMessage() {
+      var messageInput = document.getElementById('messageInput');
+      var message = messageInput.value.trim();
+
+      if (message !== '') {
+          addMessage('sent', message);
+          messageInput.value = ''; // Clear the input field after sending the message
+      }
+  }
+
+  // Function to add a message to the message box
+  function addMessage(type, content) {
+      var messageBox = document.getElementById('messageBox');
+      var messageDiv = document.createElement('div');
+      messageDiv.classList.add(type);
+      messageDiv.textContent = content;
+      messageBox.appendChild(messageDiv);
+      messageBox.scrollTop = messageBox.scrollHeight; // Scroll to bottom
+  }
+
+  // Sample received messages (can be dynamic or fetched from a server)
+
+</script>
+<script>
+  function getUserResponse(){
+    var userText=$('#textinput').val();
+    var userHTML = "<p class='userText'>user: <span>"+userText+"</span></p>";
+    $('#textinput').val("");
+    $('#chatbot').append(userHTML);
+    $.get('/chat',{userMessage:userText}).done(function(data){
+      var returnMessage= "<p class='bottext'>LEO😎🙏: <span>"+data+"</span></p>"
+      $('#chatbot').append(returnMessage) 
+    })
+  }
+  
+  $('#buttonInput').click(function(){
+    getUserResponse();
+  })
+</script>
+</body>
+
+</html>

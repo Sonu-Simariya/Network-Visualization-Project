@@ -1,0 +1,87 @@
+<!-- 404.html template -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 Page Not Found</title>
+
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            text-align: center;
+            max-width: 600px;
+        }
+
+        .emoji {
+            font-size: 8rem;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            font-size: 1.25rem;
+            padding: 10px 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="emoji">😕</div>
+        <h1>Oops! Page Not Found</h1>
+        <p>We couldn't find the page you were looking for.</p>
+        <a class="btn btn-primary" href="/">Go back to Home</a>
+    </div>
+    <div id="chat-container">
+        <div id="chat-box"></div>
+        <input type="text" id="user-input" placeholder="Type your message here...">
+        <button onclick="sendMessage()">Send</button>
+    </div>
+
+    <script>
+        function sendMessage() {
+            var userMessage = document.getElementById("user-input").value;
+            appendMessage("You", userMessage); // Display user's message in the chat box
+            document.getElementById("user-input").value = ""; // Clear the input field
+
+            // Send user's message to the server
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", "/get_bot_response/?message=" + encodeURIComponent(userMessage), true);
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        var response = JSON.parse(xhr.responseText);
+                        var botResponse = response.message;
+                        appendMessage("Bot", botResponse); // Display bot's response in the chat box
+                    }
+                }
+            };
+            xhr.send();
+        }
+
+        function appendMessage(sender, message) {
+            var chatBox = document.getElementById("chat-box");
+            chatBox.innerHTML += "<div><strong>" + sender + ":</strong> " + message + "</div>";
+            // Scroll to the bottom of the chat box
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+    </script>
+</body>
+</html>
