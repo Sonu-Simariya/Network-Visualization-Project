@@ -1,7 +1,7 @@
 
 from django.shortcuts import render, redirect,get_object_or_404
 from django.contrib.auth import login,logout
-from django.http import JsonResponse
+# from django.http import JsonResponse
 
 from .models import CustomUser,details,live_data,csv_1
 from django.http import HttpResponse
@@ -11,167 +11,22 @@ from django.shortcuts import render
 from collections import Counter
 from datetime import datetime,date
 from django.contrib import messages
-import pandas as pd
+
 from pythonping import ping
 import socket
 import csv
 import datetime as dt
-from django.http import JsonResponse
-import nltk
+
 from nltk.chat.util import Chat, reflections
-import spacy
-# Define chatbot responses
-
-@csrf_exempt
-def Login(request):
-    if request.method == 'POST':
-    
-        username = request.POST['username']
-        password = request.POST['password']
-        
-
-        user = CustomUser.objects.filter(username=username, password=password,isadmin=True).first()
-
-        if user:
-            # Log in the user
-            login(request, user)
-            # Redirect to a success page
-            return redirect('desk')
-        else:
-            # Handle invalid login credentials
-            error_message = "Invalid username or password."
-            return render(request, 'authentication-login - Copy.html', {'error_message': error_message})
-    else:
-        return render(request, 'authentication-login - Copy.html')
-    # return render(request, 'authentication-login.html')
 
 
-@csrf_exempt
-def Reg(request):
-    if request.method == "POST":
-        first_name = request.POST.get("f_name",not None)
-        last_name = request.POST.get("l_name",not None)
-        email = request.POST.get("Email",not None)
-        password=request.POST.get("Password1", not None)
-        confirm_password=request.POST.get("password2", not None)
-        if CustomUser.objects.filter(username=first_name+last_name+email).exists():
-            return render(request, 'authentication-login.html')
-        else:
-        
-            user = CustomUser(username=first_name+last_name,last_name=last_name ,first_name=first_name,confirm_password=confirm_password,email=email, password=password,isadmin=True)
-            user.save()
-            context=HttpResponse('User created')
-            return context  
-    return render(request, 'authentication-register.html')
-@csrf_exempt
-@login_required
-def desk(request):
-    da=pd.read_csv(r'C:/Users\lalit\Desktop\ping_proj\ping/data.csv')
-    dt=da['Ip'].tolist()
-    loc=da['Rack Location'].tolist()
-
-    if request.method == 'POST':
-        user_id = request.user.id
-        Date = request.POST.get("date",not None)
-        ip_address = request.POST.get('ip_address',not None)
-        # Assuming the user is logged in, you can access the user's ID
-        Rack_Loc = request.POST.get('Rack_Loc')
-
-        data = details.objects.filter(id_cust_id=user_id)
-        type_counts = dict(Counter(fruit.Ip for fruit in data))
 
 
-        ip_add = details.objects.order_by('-id')[:1]  
-        labes = []
-        last_5_addresses = details.objects.order_by('-id')[:1]
-        labels = [str(  Ip) for Ip in last_5_addresses]
-        dat = [1] * len(last_5_addresses)
-        labels=[]
-        for ip in ip_add:
-            labels.append(ip.Ip)
-            labes.append(ip.Status)
-        if request.method == 'POST':
-            ip_address = request.POST.get('ip_address')
-            try:
-                response = ping(ip_address)
-                if response.success():
-                    status = 'Reachable'
-                
-                else:
-                    status = 'Destination Unreachable'
-                
-            except Exception as e:
-                result = 'Wrong IP or Error: ' + str(e)
-                # status = "Unreachable"
-        profile=details(id_cust_id=user_id,date_1=Date,Rack_Location=Rack_Loc,Ip=ip_address,Status=status)
-        profile.save()
-    
-    try:
-        server_ip = socket.gethostbyname(socket.gethostname())
-        if server_ip==server_ip:
-            response = ping('172.18.90.200')
-            if response.success():
-                case = 'Connected'
-            else:
-                case = 'Not Connected'
-        else:
-            case = ' Not Found '
-
-    except socket.error as e:
-        return f"Error: {e}"
-    P=details.objects.order_by('-id')[:]
-    user_id=request.user.id
-    data = details.objects.filter(id_cust_id=user_id)
-    current_index = request.session.get('current_index', 0)
-        # current_value = dt[current_index]
-    if current_index >= len(dt):
-        current_index = 0  # Reset index if all values have been displayed
-    
-    current_value = dt[current_index]
-    Loc = loc[current_index]
-    request.session['current_index'] = current_index + 1 
-    type_counts = dict(Counter(fruit.Ip for fruit in data))
-    ip_add = details.objects.order_by('-id')[:1]  
-    labes = []
-    last_5_addresses = details.objects.order_by('-id')[:1]
-    labels = [str(  Ip) for Ip in last_5_addresses]
-    dat = [1] * len(last_5_addresses)
-    z=details.objects.order_by('-id')[:60]
-    labels=[]
-    for ip in ip_add:
-        labels.append(ip.Ip)
-        labes.append(ip.Status) 
-
-    return render(request, 'index2.html',{'data':data,'user_id':user_id,'type_counts':type_counts,'dat':dat,'Loc':Loc,'labels':labels,'labes':labes,'current_value':current_value,'P':P,'z':z,'server_ip':server_ip,'case':case})
 
 def Logout(request):
     logout(request)
-    return redirect ('Login')
-@csrf_exempt
-@login_required
-def pie(request):
-    nowt=datetime.now()
+    return redirect ('Log')
 
-    p1 = details.objects.order_by('-id')[0]
-    p2 = details.objects.order_by('-id')[1]
-    p3 = details.objects.order_by('-id')[2]
-    P=details.objects.order_by('-id')[:]
-
-    last_5_addresses = details.objects.order_by('-id')[:5]
-    labels = [str(  Ip) for Ip in last_5_addresses]
-    dat = [1] * len(last_5_addresses)
-    labes = []
-    labels=[]
-    for ip in last_5_addresses:
-        labels.append(ip.Ip)
-        labes.append(ip.Status) 
-    
-    context= {
-        'P':P,'labes': labes,'dat':dat,
-        'labels':labels,'p1':p1,'p2':p2,
-        'p3':p3,'nowt':nowt
-    }
-    return render(request, 'ui-buttons.html',context)
 @csrf_exempt
 @login_required
 def alert(request):
@@ -614,14 +469,30 @@ def read_csv_data(filename):
                 response = row[1].strip()  # Assuming response is in the second column
                 pairs.append([input_pattern, [response]])
     return pairs
-
+import subprocess
 def chat(request):
 
     user_message = request.GET.get('userMessage')
     bot_response = None
     if user_message:
         z=csv_1.objects.filter(Ip=user_message).exists()
+        a=f"{z}"
         if z:
+            try:
+                # Run the ping command
+                result = subprocess.run(['ping', '-c', '1', a], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+                if result.returncode == 0:
+                    result=f"{user_message} working properly"
+                    
+                else:
+                    result=f"{user_message} not working please check ."
+                    
+            except Exception as e:
+                result="Check the function"
+            # Call the function with the IP address
+            
+            bot_response=[result]
+        elif z:
             a=csv_1.objects.filter(Ip=user_message).last()
             b=details.objects.filter(Ip=user_message).last()
             
@@ -631,3 +502,6 @@ def chat(request):
             chatbot = Chat(pairs, reflections)
             bot_response = chatbot.respond(user_message)
     return HttpResponse(bot_response)
+    
+
+
