@@ -458,7 +458,8 @@ def read_csv_data(filename):
     ['which company created LEO?', ['CMTI created LEO AI.']],
     ['time',[f'the date & time is ,{time}']],
     ['CMTI created LEO AI.',['yes LALIT SIMARIYA CREATED LEO CHATBOT']],
-    ['WHAT IS CHATBOT',['a computer program designed to simulate conversation with human users, especially over the internet.']]
+    ['WHAT IS CHATBOT',['a computer program designed to simulate conversation with human users, especially over the internet.']],
+    ['',['Invalid']]
     ]
     
     with open(filename, 'r') as file:
@@ -470,38 +471,64 @@ def read_csv_data(filename):
                 pairs.append([input_pattern, [response]])
     return pairs
 import subprocess
+import platform
+
+def ping_ip_chat(ip_address):
+    try:
+        # Determine the command based on the operating system
+        if platform.system().lower() == "windows":
+            command = ["ping", "-n", "1", ip_address]
+        else:
+            command = ["ping", "-c", "1", ip_address]
+        
+        # Run the ping command
+        result = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=5)
+        if result.returncode == 0:
+            return 'Reachable'
+        else:
+            return 'Not Reachable'
+            
+    except subprocess.TimeoutExpired:
+        return False, "", "Ping command timed out"
+    except Exception as e:
+        return False, "", str(e)
+from termcolor import colored
 def chat(request):
 
     user_message = request.GET.get('userMessage')
     bot_response = None
     if user_message:
         z=csv_1.objects.filter(Ip=user_message).exists()
-        a=f"{z}"
-        if z:
-            try:
-                # Run the ping command
-                result = subprocess.run(['ping', '-c', '1', a], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-                if result.returncode == 0:
-                    result=f"{user_message} working properly"
+        
+        if z or user_message=='8.8.8.8':
+            curr_status=ping_ip_chat(user_message)
+            if z:
+                curr_status=ping_ip_chat(user_message)
+                if curr_status=='Reachable':
+                    current_status=f'<span style="color: green;">{curr_status}</span>'
                     
                 else:
-                    result=f"{user_message} not working please check ."
+                    current_status=f'<span style="color: red;">{curr_status}</span>'
+                a=csv_1.objects.filter(Ip=user_message).last()
+                b=details.objects.filter(Ip=user_message).last()
+            
+                bot_response=[['Cmti IP Status',user_message],['current status:-',current_status],['Location is:-',a.Location],
+                            ['Type:-',a.Description],['Last detail:-',b.date_1],['Last Status:-',b.Status]]
+            else:
+                if curr_status=='Reachable':
+                    current_status=f'<span style="color: green;">{curr_status}</span>'
                     
-            except Exception as e:
-                result="Check the function"
-            # Call the function with the IP address
-            
-            bot_response=[result]
-        elif z:
-            a=csv_1.objects.filter(Ip=user_message).last()
-            b=details.objects.filter(Ip=user_message).last()
-            
-            bot_response=['Location is:-',a.Location,'Type:-',a.Description,'Last detail:-',b.date_1,'Status:-',b.Status]
+                else:
+                    current_status=f'<span style="color: red;">{curr_status}</span>'
+                bot_response=['Default Ip current status:-',current_status]
         else:
             pairs = read_csv_data('chatbot_data.csv')  # Read pairs from CSV file
             chatbot = Chat(pairs, reflections)
             bot_response = chatbot.respond(user_message)
     return HttpResponse(bot_response)
     
+def handler404(request, exception):
+    return render(request, '404.html', status=404)
 
-
+def handler500(request):
+    return render(request, '404.html', status=500)

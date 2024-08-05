@@ -49,39 +49,6 @@
         <p>We couldn't find the page you were looking for.</p>
         <a class="btn btn-primary" href="/">Go back to Home</a>
     </div>
-    <div id="chat-container">
-        <div id="chat-box"></div>
-        <input type="text" id="user-input" placeholder="Type your message here...">
-        <button onclick="sendMessage()">Send</button>
-    </div>
-
-    <script>
-        function sendMessage() {
-            var userMessage = document.getElementById("user-input").value;
-            appendMessage("You", userMessage); // Display user's message in the chat box
-            document.getElementById("user-input").value = ""; // Clear the input field
-
-            // Send user's message to the server
-            var xhr = new XMLHttpRequest();
-            xhr.open("GET", "/get_bot_response/?message=" + encodeURIComponent(userMessage), true);
-            xhr.onreadystatechange = function () {
-                if (xhr.readyState === XMLHttpRequest.DONE) {
-                    if (xhr.status === 200) {
-                        var response = JSON.parse(xhr.responseText);
-                        var botResponse = response.message;
-                        appendMessage("Bot", botResponse); // Display bot's response in the chat box
-                    }
-                }
-            };
-            xhr.send();
-        }
-
-        function appendMessage(sender, message) {
-            var chatBox = document.getElementById("chat-box");
-            chatBox.innerHTML += "<div><strong>" + sender + ":</strong> " + message + "</div>";
-            // Scroll to the bottom of the chat box
-            chatBox.scrollTop = chatBox.scrollHeight;
-        }
-    </script>
+    <a href="/">Return to home page</a>
 </body>
 </html>
