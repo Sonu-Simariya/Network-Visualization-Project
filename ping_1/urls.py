@@ -18,7 +18,7 @@ urlpatterns = [
     path('ip_save',views.ip_save,name='ip_save'),
     path('chat/', views.chat, name='chat'),
     # Add more URLs as needed
-]
+]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 

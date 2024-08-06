@@ -335,7 +335,12 @@
 
         
         <p>I am LEO,How may i help you?</p>
-        <button class="btn-open-popup btn btn-primary" onclick="openMessageBox()"  id="btt" style="width: 80px;background-color:white;border:none"   ><img id="sidebarnav" style="height: 40px;width:40px" src="{% static 'img\chatbot.png' %}" width="180" alt=""></button>
+        <button class="btn-open-popup btn btn-primary" onclick="openMessageBox()"  id="btt" style="width: 80px;background-color:white;border:none"   >
+          <!-- <img id="sidebarnav" style="height: 40px;width:40px" src="{% static 'img\chatbot.png' %}" width="180" alt=""> -->
+          <img id="sidebarnav" style="height: 80px;width:80px" src="{% static 'img\chat2.gif' %}" alt="My GIF Image">
+
+          <!-- <source id="sidebarnav" style="height: 40px;width:40px" src="{% static 'img\chatbot.mp4' %}"" width="180" alt="" type="mp4"> -->
+        </button>
         <div id="messageBox" class="message-box" style="overflow-x: scroll;">
           <!-- <p class="greet" >Namaste 🙏</p> -->
           <div id="chatbot">

@@ -457,6 +457,8 @@ def read_csv_data(filename):
     ['i need help.', ['I can help you with various tasks.']],
     ['which company created LEO?', ['CMTI created LEO AI.']],
     ['time',[f'the date & time is ,{time}']],
+
+    ['by',[f'Bye. Thanku for using  LEO chatbot']],
     ['CMTI created LEO AI.',['yes LALIT SIMARIYA CREATED LEO CHATBOT']],
     ['WHAT IS CHATBOT',['a computer program designed to simulate conversation with human users, especially over the internet.']],
     ['',['Invalid']]
@@ -492,7 +494,6 @@ def ping_ip_chat(ip_address):
         return False, "", "Ping command timed out"
     except Exception as e:
         return False, "", str(e)
-from termcolor import colored
 def chat(request):
 
     user_message = request.GET.get('userMessage')
@@ -513,14 +514,14 @@ def chat(request):
                 b=details.objects.filter(Ip=user_message).last()
             
                 bot_response=[['Cmti IP Status',user_message],['current status:-',current_status],['Location is:-',a.Location],
-                            ['Type:-',a.Description],['Last detail:-',b.date_1],['Last Status:-',b.Status]]
+                            ['Type:-',a.Description],'Last detail:-',b.date_1,['Last Status:-',b.Status]]
             else:
                 if curr_status=='Reachable':
                     current_status=f'<span style="color: green;">{curr_status}</span>'
                     
                 else:
                     current_status=f'<span style="color: red;">{curr_status}</span>'
-                bot_response=['Default Ip current status:-',current_status]
+                bot_response=['Internet Ip current status:-',current_status]
         else:
             pairs = read_csv_data('chatbot_data.csv')  # Read pairs from CSV file
             chatbot = Chat(pairs, reflections)
